@@ -1,26 +1,21 @@
 import * as ReadableApi from '../utils/ReadableApi';
 
-export const ADD_POST = 'ADD_POST'
-export const REMOVE_POST = 'REMOVE_POST'
+export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const REQUEST_POSTS = 'REQUEST_POSTS';
 
-export const addPost = ({ post, id }) => {
+function requestPosts() {
   return {
-    type: ADD_POST,
-    post,
-    id
+    type: REQUEST_POSTS,
   }
 }
 
-export const removePost = ({ post, id }) => {
-  return {
-    type: REMOVE_POST,
-    post,
-    id
-  }
+export const receivePosts = posts => ({
+	type: RECEIVE_POSTS,
+	posts
+})
+
+export const fetchPosts = () => dispatch => {
+	dispatch(requestPosts())
+	return ReadableApi.getPosts().then( posts => dispatch(receivePosts(posts)) )
 }
 
-export const fetchPosts = () => dispatch => (
-  ReadableApi
-    .getPosts()
-    .then(posts => dispatch(addPost(posts)))
-)

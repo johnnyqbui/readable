@@ -1,31 +1,31 @@
 import { combineReducers } from 'redux'
 
-import {
-  ADD_POST,
-  REMOVE_POST,
-} from '../actions'
+import { REQUEST_POSTS, RECEIVE_POSTS } from '../actions'
 
-const post = (state = {}, action) => {
-  const { post, id } = action
+const postsState = {
+  isFetching: false
+}
 
+const posts = (state = postsState, action) => {
   switch (action.type) {
-    case ADD_POST :
+    case REQUEST_POSTS :
       return {
         ...state,
-        post,
-        id
+        isFetching: true
       }
-    case REMOVE_POST :
+    case RECEIVE_POSTS :
       return {
         ...state,
-        post,
-        id
+        isFetching: false,
+        posts: action.posts
       }
     default :
       return state
   }
 }
 
-export default combineReducers({
-  post
-})
+export default posts
+
+// export default combineReducers({
+//   posts
+// })
