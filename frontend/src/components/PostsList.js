@@ -6,10 +6,10 @@ const PostsList = (props) => {
 	return (
 		<div className='posts-list'>
 			<ul>
-				{posts && posts.map((post) =>
-					<li>
+				{posts && posts.map((post, i) =>
+					<li key={i}>
 						<span>{post.voteScore} </span> {post.title} - {post.category}<br/>
-						<span>{post.author} at {moment(post.timestamp)}</span>
+						<span><em>{post.author}</em> posted at {moment(post.timestamp).format('MMM-DD-YYYY hh:mm A').toString()}</span>
 					</li>
 				)}
 			</ul>
