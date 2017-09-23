@@ -8,7 +8,7 @@ const PostsList = (props) => {
 			<ul>
 				{posts && posts.map((post, i) =>
 					<li key={i}>
-						<span>{post.voteScore} </span> {post.title} - {post.category}<br/>
+						<span>{post.voteScore} </span> {post.title} - <strong>{post.category}</strong><br/>
 						<span><em>{post.author}</em> posted at {moment(post.timestamp).format('MMM-DD-YYYY hh:mm A').toString()}</span>
 					</li>
 				)}

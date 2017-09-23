@@ -1,21 +1,22 @@
 import * as ReadableApi from '../utils/ReadableApi';
 
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
-export const REQUEST_POSTS = 'REQUEST_POSTS';
+export const GET_POSTS = 'GET_POSTS';
+export const GET_CATEGORIES = 'GET_CATEGORIES';
 
-function requestPosts() {
-  return {
-    type: REQUEST_POSTS,
-  }
-}
-
-export const receivePosts = posts => ({
-	type: RECEIVE_POSTS,
+const getPosts = posts => ({
+	type: GET_POSTS,
 	posts
 })
 
-export const fetchPosts = () => dispatch => {
-	dispatch(requestPosts())
-	return ReadableApi.getPosts().then( posts => dispatch(receivePosts(posts)) )
+const getCategories = categories => ({
+	type: GET_CATEGORIES,
+	categories
+})
+
+export const fetchInfo = () => dispatch => {
+	ReadableApi
+	.getPosts().then( posts => dispatch(getPosts(posts)) )
+	ReadableApi
+	.getCats().then( categories => dispatch(getCategories(categories)) )
 }
 

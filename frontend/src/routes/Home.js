@@ -3,32 +3,38 @@ import PostsList from '../components/PostsList';
 import Categories from '../components/Categories';
 
 import { connect } from 'react-redux';
-import { fetchPosts } from '../actions';
+import { fetchInfo } from '../actions';
 
 import * as ReadableApi from '../utils/ReadableApi';
 
 class Home extends Component {
 	componentDidMount() {
-		this.props.fetchPosts()
+		this.props.fetchInfo()
 	}
 
 	render() {
-		const { isFetching, posts } = this.props;
+		const { categories, allPosts } = this.props;
 		return (
-			isFetching ? <h2>Loading...</h2>
-			: <PostsList posts={ posts } />
+			<div>
+				<Categories categories={ categories }/>
+				{ allPosts.isFetching ? <h2>Loading...</h2>
+					: <PostsList posts={ allPosts.posts } /> }
+			</div>
 		)
 	}
 }
 
 // Passing state as props, from reducers
-const mapStateToProps = ({isFetching, posts}) => ({
-	isFetching,
-	posts
-})
+const mapStateToProps = (state) => {
+	const { categories, allPosts } = state;
+	return {
+		categories,
+		allPosts
+	}
+}
 
 const mapDispatchToProps = (dispatch) => ({
-	fetchPosts: () => dispatch(fetchPosts())
+	fetchInfo: () => dispatch(fetchInfo())
 })
 
 export default connect(
