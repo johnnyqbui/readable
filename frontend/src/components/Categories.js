@@ -1,8 +1,16 @@
 import React from 'react';
 
-const Categories = () => {
+const Categories = (categories) => {
 	return (
-		<div>All categories go here</div>
+		<div className='categories'>
+			<ul>
+			{categories.categories && categories.categories.map((category, i) =>
+				<li key={i}>
+					{category.name}
+				</li>
+			)}
+			</ul>
+		</div>
 	)
 }
 

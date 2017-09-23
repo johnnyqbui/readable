@@ -28,7 +28,7 @@ class Home extends Component {
 const mapStateToProps = (state) => {
 	const { categories, allPosts } = state;
 	return {
-		categories,
+		categories: categories.categories,
 		allPosts
 	}
 }

@@ -9,6 +9,10 @@ const postsState = {
   posts: []
 }
 
+const categoriesState = {
+  categories: []
+}
+
 const allPosts = (state = postsState, action) => {
   const { posts } = action;
   switch (action.type) {
@@ -29,7 +33,7 @@ const categories = (state = {}, action) => {
     case GET_CATEGORIES :
       return {
         ...state,
-        categories
+        categories: categories.categories
       }
     default :
       return state

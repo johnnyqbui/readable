@@ -14,14 +14,30 @@
   color: white;
 }
 
-.posts-list ul li {
+ul li {
   list-style-type: none;
+  text-align: left;
+}
+
+.posts-list ul li {
   margin: 20px;
   padding: 0;
-  text-align: left;
 }
 
 .posts-list ul li span {
   color: #a2a4a9;
   font-weight: bold;
+}
+
+
+.categories ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 0;
+}
+
+.categories ul li {
+  margin: 20px;
 }
