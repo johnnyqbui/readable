@@ -20,3 +20,8 @@
   padding: 0;
   text-align: left;
 }
+
+.posts-list ul li span {
+  color: #a2a4a9;
+  font-weight: bold;
+}
