@@ -5,8 +5,6 @@ import '../App.css';
 import Home from '../routes/Home';
 import CreateEditPosts from '../routes/CreateEditPosts';
 
-import * as ReadableApi from '../utils/ReadableApi';
-
 class App extends Component {
   render() {
     return (

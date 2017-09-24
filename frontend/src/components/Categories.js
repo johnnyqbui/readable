@@ -1,10 +1,11 @@
 import React from 'react';
 
-const Categories = (categories) => {
+const Categories = (props) => {
+	const { categories } = props;
 	return (
 		<div className='categories'>
 			<ul>
-			{categories.categories && categories.categories.map((category, i) =>
+			{categories.length && categories.map((category, i) =>
 				<li key={i}>
 					{category.name}
 				</li>

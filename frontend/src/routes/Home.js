@@ -5,20 +5,18 @@ import Categories from '../components/Categories';
 import { connect } from 'react-redux';
 import { fetchInfo } from '../actions';
 
-import * as ReadableApi from '../utils/ReadableApi';
-
 class Home extends Component {
 	componentDidMount() {
 		this.props.fetchInfo()
 	}
 
 	render() {
-		const { categories, allPosts } = this.props;
+		const { categoryData, postsData } = this.props;
 		return (
 			<div>
-				<Categories categories={ categories }/>
-				{ allPosts.isFetching ? <h2>Loading...</h2>
-					: <PostsList posts={ allPosts.posts } /> }
+				<Categories categories={ categoryData.categories }/>
+				{ postsData.isFetching ? <h2>Loading...</h2>
+					: <PostsList posts={ postsData.posts } /> }
 			</div>
 		)
 	}
@@ -26,10 +24,10 @@ class Home extends Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = (state) => {
-	const { categories, allPosts } = state;
+	const { categoryData, postsData } = state;
 	return {
-		categories: categories.categories,
-		allPosts
+		categoryData,
+		postsData
 	}
 }
 
