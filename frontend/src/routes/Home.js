@@ -3,18 +3,25 @@ import PostsList from '../components/PostsList';
 import Categories from '../components/Categories';
 
 import { connect } from 'react-redux';
-import { fetchInfo } from '../actions';
+import { fecthInitialData, selectedCategory } from '../actions';
 
 class Home extends Component {
 	componentDidMount() {
-		this.props.fetchInfo()
+		this.props.fecthInitialData()
+	}
+
+	handleCategoryClick = (category) => {
+		this.props.selectedCategory(category)
 	}
 
 	render() {
 		const { categoryData, postsData } = this.props;
 		return (
 			<div>
-				<Categories categories={ categoryData.categories }/>
+				<Categories
+					categories={ categoryData.categories }
+					onSelect={ this.handleCategoryClick }
+				/>
 				{ postsData.isFetching ? <h2>Loading...</h2>
 					: <PostsList posts={ postsData.posts } /> }
 			</div>
@@ -32,7 +39,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	fetchInfo: () => dispatch(fetchInfo())
+	fecthInitialData: () => dispatch(fecthInitialData()),
+	selectedCategory: (category) => dispatch(selectedCategory(category))
 })
 
 export default connect(

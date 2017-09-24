@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 
 import {
   GET_POSTS,
-  GET_CATEGORIES } from '../actions'
+  GET_CATEGORIES,
+  SELECTED_CATEGORY } from '../actions'
 
 const postsState = {
   isFetching: true,
@@ -11,6 +12,19 @@ const postsState = {
 
 const categoriesState = {
   categories: []
+}
+
+const selectedCategory = (state = '', action) => {
+  const { selectedCategory } = action;
+  switch (action.type) {
+    case SELECTED_CATEGORY:
+      return {
+        ...state,
+        selectedCategory
+      }
+    default :
+      return state
+  }
 }
 
 const postsData = (state = postsState, action) => {
@@ -42,5 +56,6 @@ const categoryData = (state = categoriesState, action) => {
 
 export default combineReducers({
   postsData,
-  categoryData
+  categoryData,
+  selectedCategory
 })
