@@ -3,7 +3,7 @@ import PostsList from '../components/PostsList';
 import Categories from '../components/Categories';
 
 import { connect } from 'react-redux';
-import { fecthInitialData, selectedCategory } from '../actions';
+import { fecthInitialData, fetchCategoryData } from '../actions';
 
 class Home extends Component {
 	componentDidMount() {
@@ -11,15 +11,16 @@ class Home extends Component {
 	}
 
 	handleCategoryClick = (category) => {
-		this.props.selectedCategory(category)
+		this.props.fetchCategoryData(category)
 	}
 
 	render() {
-		const { categoryData, postsData } = this.props;
+		const { categoryData, postsData, selectedCategory } = this.props;
 		return (
 			<div>
 				<Categories
 					categories={ categoryData.categories }
+					selectedCategory={ selectedCategory.category }
 					onSelect={ this.handleCategoryClick }
 				/>
 				{ postsData.isFetching ? <h2>Loading...</h2>
@@ -31,16 +32,18 @@ class Home extends Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = (state) => {
-	const { categoryData, postsData } = state;
+	const { categoryData, postsData, selectedCategory } = state;
 	return {
 		categoryData,
-		postsData
+		postsData,
+		selectedCategory
 	}
 }
 
 const mapDispatchToProps = (dispatch) => ({
 	fecthInitialData: () => dispatch(fecthInitialData()),
-	selectedCategory: (category) => dispatch(selectedCategory(category))
+	fetchCategoryData: (category) => dispatch(fetchCategoryData(category))
+
 })
 
 export default connect(

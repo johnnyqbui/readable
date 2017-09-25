@@ -15,12 +15,12 @@ const categoriesState = {
 }
 
 const selectedCategory = (state = '', action) => {
-  const { selectedCategory } = action;
+  const { category } = action;
   switch (action.type) {
     case SELECTED_CATEGORY:
       return {
         ...state,
-        selectedCategory
+        category
       }
     default :
       return state

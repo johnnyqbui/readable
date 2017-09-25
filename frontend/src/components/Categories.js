@@ -1,7 +1,8 @@
 import React from 'react';
 
 const Categories = (props) => {
-	const { categories, onSelect } = props;
+	const { categories, onSelect, selectedCategory } = props;
+	console.log(selectedCategory)
 	return (
 		<div className='categories'>
 			<ul>
