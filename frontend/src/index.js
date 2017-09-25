@@ -6,10 +6,10 @@ import registerServiceWorker from './registerServiceWorker';
 
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux';
-import createHistory from 'history/createBrowserHistory';
+import createBrowserHistory from 'history/createBrowserHistory';
 import store from './store';
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 ReactDOM.render(
 	<Provider store={ store }>

@@ -39,7 +39,6 @@ export const fetchCategoryData = (category) => dispatch => {
     	dispatch(getPosts(posts)),
     	dispatch(selectedCategory(category))
     )
-
 }
 
 export const fecthInitialData = () => dispatch => {

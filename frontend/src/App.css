@@ -14,11 +14,15 @@ ul li {
 }
 
 .posts-list {
-  width: 33%;
+  width: 100%;
+}
+
+.posts-list ul {
+  padding: 0;
+  margin: 30px;
 }
 
 .posts-list ul li {
-  text-align: center;
   padding: 10px;
   cursor: pointer;
   border: 2px solid #00ffa9;
@@ -33,10 +37,10 @@ ul li {
 
 .categories {
   background: #232323;
-  width: 33%;
-  max-width: 300px;
+  width: 165px;
   height: 100vh;
   padding: 0 5px;
+
 }
 
 .categories h2 {
@@ -55,11 +59,11 @@ ul li {
   padding: 10px;
   color: white;
   cursor: pointer;
-  border: 2px solid #00ffa9;
+  border: 1px solid #00ffa9;
   margin: 10px 0;
   transition: .2s;
 }
 
 .isActive {
-  background: #00ffa9;
+  background: rgba(0, 255, 169, 1);
 }
