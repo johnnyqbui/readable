@@ -2,6 +2,7 @@ import React from 'react';
 
 const Categories = (props) => {
 	const { categories, onSelect, selectedCategory } = props;
+
 	return (
 		<div className='categories'>
 			<h2>Categories</h2>

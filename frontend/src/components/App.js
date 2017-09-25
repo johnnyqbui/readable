@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div className="App">
         <Switch>
-          <Route exact path='/' component={Home}/>
+          <Route path='/:category?' component={Home} />
           <Route path='/create' component={CreateEditPosts} />
           <Route render={() => <h1>Page not found</h1>} />
         </Switch>

@@ -1,4 +1,5 @@
-import * as ReadableApi from '../utils/ReadableApi';
+import { push } from 'react-router-redux'
+
 const baseApi = 'http://localhost:3001';
 
 export const GET_POSTS = 'GET_POSTS';
@@ -24,6 +25,10 @@ const getCategories = categories => {
 		type: GET_CATEGORIES,
 		categories
 	}
+}
+
+export const pushToHistory = category => dispatch => {
+	dispatch(push(`${category}`))
 }
 
 export const fetchCategoryData = (category) => dispatch => {

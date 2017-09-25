@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 import PostsList from '../components/PostsList';
 import Categories from '../components/Categories';
-
 import { connect } from 'react-redux';
-import { fecthInitialData, fetchCategoryData } from '../actions';
+import { fecthInitialData, fetchCategoryData, pushToHistory } from '../actions';
 
 class Home extends Component {
 	componentDidMount() {
+		const category = this.props.match.params.category
+		? this.props.match.params.category
+		: this.props.selectedCategory.category;
+
 		this.props.fecthInitialData()
+		this.props.fetchCategoryData(category)
+		this.props.pushToHistory(category)
 	}
 
 	handleCategoryClick = (category) => {
 		this.props.fetchCategoryData(category)
+		this.props.pushToHistory(category)
 	}
 
 	render() {
@@ -42,8 +48,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	fecthInitialData: () => dispatch(fecthInitialData()),
-	fetchCategoryData: (category) => dispatch(fetchCategoryData(category))
-
+	fetchCategoryData: (category) => dispatch(fetchCategoryData(category)),
+	pushToHistory: (category) => dispatch(pushToHistory(category))
 })
 
 export default connect(
