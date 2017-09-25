@@ -17,7 +17,7 @@ class Home extends Component {
 	render() {
 		const { categoryData, postsData, selectedCategory } = this.props;
 		return (
-			<div>
+			<div className='main'>
 				<Categories
 					categories={ categoryData.categories }
 					selectedCategory={ selectedCategory.category }

@@ -1,22 +1,18 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
   background-color: #222;
   height: 70px;
   padding: 20px;
   color: white;
+  text-align: center;
 }
 
 ul li {
   list-style-type: none;
   text-align: left;
+}
+
+.main {
+  display: flex;
 }
 
 .posts-list ul li {
@@ -29,15 +25,33 @@ ul li {
   font-weight: bold;
 }
 
+.categories {
+  background: #232323;
+  width: 300px;
+  height: calc(100vh - 110px);
+  border-top: 1px solid #00ffa9;
+  padding: 5px;
+}
+
+.categories h2 {
+  color: white;
+  text-align: center;
+}
 
 .categories ul {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .categories ul li {
-  margin: 20px;
+  text-align: center;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  border: 2px solid #00ffa9;
+  margin: 10px 0;
+}
+
+.isActive {
+  background: silver;
 }

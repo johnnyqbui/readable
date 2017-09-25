@@ -2,9 +2,9 @@ import React from 'react';
 
 const Categories = (props) => {
 	const { categories, onSelect, selectedCategory } = props;
-	console.log(selectedCategory)
 	return (
 		<div className='categories'>
+			<h2>Categories</h2>
 			<ul>
 			{categories.length && categories.map((category, i) =>
 				<li
