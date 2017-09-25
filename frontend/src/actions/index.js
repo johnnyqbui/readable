@@ -27,7 +27,8 @@ const getCategories = categories => {
 }
 
 export const fetchCategoryData = (category) => dispatch => {
-	fetch(`${baseApi}/${category}/posts`, { headers: { 'Authorization': 'jb' }})
+	const getCategory = category === 'all' ? '' : `${category}/`
+	fetch(`${baseApi}/${getCategory}posts`, { headers: { 'Authorization': 'jb' }})
     .then( res => res.json() )
     .then( posts =>
     	dispatch(getPosts(posts)),

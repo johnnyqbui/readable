@@ -6,14 +6,17 @@ const Categories = (props) => {
 		<div className='categories'>
 			<h2>Categories</h2>
 			<ul>
-			{categories.length && categories.map((category, i) =>
-				<li
-					key={i}
-					onClick={e => onSelect(category.name)}
-				>
-					{category.name}
-				</li>
-			)}
+			{categories.length && categories.map((category, i) => {
+				return (
+					<li
+						key={i}
+						onClick={e => onSelect(category.name)}
+						className={ category.name === selectedCategory && 'isActive'}
+					>
+						{category.name}
+					</li>
+				)
+			})}
 			</ul>
 		</div>
 	)

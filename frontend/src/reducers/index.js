@@ -14,7 +14,7 @@ const categoriesState = {
   categories: []
 }
 
-const selectedCategory = (state = '', action) => {
+const selectedCategory = (state = { category: 'all' }, action) => {
   const { category } = action;
   switch (action.type) {
     case SELECTED_CATEGORY:
