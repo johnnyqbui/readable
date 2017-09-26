@@ -1,5 +1,3 @@
-import { push } from 'react-router-redux'
-
 const baseApi = 'http://localhost:3001';
 
 export const GET_POSTS = 'GET_POSTS';
@@ -27,12 +25,8 @@ const getCategories = categories => {
 	}
 }
 
-export const pushToHistory = category => dispatch => {
-	dispatch(push(`${category}`))
-}
-
-export const fetchCategoryData = (category) => dispatch => {
-	const getCategory = category === 'all' ? '' : `${category}/`
+export const fetchCategoryData = category => dispatch => {
+	const getCategory = category === 'all' || category === '' ? '' : `${category}/`
 	fetch(`${baseApi}/${getCategory}posts`, { headers: { 'Authorization': 'jb' }})
     .then( res => res.json() )
     .then( posts =>

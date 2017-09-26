@@ -1,29 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCategoryData, pushToHistory } from '../actions';
+import { fetchCategoryData } from '../actions';
 
 class Categories extends Component {
-	componentWillReceiveProps(nextProps) {
-		const prevCategory = this.props.router.location.pathname
-		const nextCategory = nextProps.router.location.pathname
-		if (prevCategory !== nextCategory) {
-			const category = nextCategory.substring(1)
-			this.props.fetchCategoryData(category)
-		}
-	}
-
-	componentDidMount() {
-		const { selectedCategory, fetchCategoryData } = this.props;
-		const categoryPathname = this.props.router.location.pathname
-		const category = categoryPathname ? categoryPathname.substring(1) : selectedCategory.category;
-		fetchCategoryData(category)
-	}
-
-	handleCategoryClick = (category) => {
-		this.props.fetchCategoryData(category)
-		this.props.pushToHistory(category)
-	}
-
 	render() {
 		const { categories, selectedCategory } = this.props;
 		return (
@@ -35,7 +14,7 @@ class Categories extends Component {
 						<li
 							key={i}
 							className={ category.name === selectedCategory ? 'isActive' : ''}
-							onClick={e => this.handleCategoryClick(category.name)}
+							onClick={e => this.props.onClick(category.name)}
 						>
 							{category.name}
 						</li>
@@ -49,17 +28,15 @@ class Categories extends Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = (state) => {
-	const { categoryData, selectedCategory, router } = state;
+	const { categoryData, selectedCategory } = state;
 	return {
 		categories: categoryData.categories,
-		selectedCategory: selectedCategory.category,
-		router
+		selectedCategory: selectedCategory.category
 	}
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	fetchCategoryData: (category) => dispatch(fetchCategoryData(category)),
-	pushToHistory: (category) => dispatch(pushToHistory(category))
+	fetchCategoryData: (category) => dispatch(fetchCategoryData(category))
 })
 
 export default connect(

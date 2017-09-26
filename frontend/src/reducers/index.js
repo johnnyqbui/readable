@@ -1,4 +1,3 @@
-import { routerReducer } from 'react-router-redux'
 import { combineReducers } from 'redux'
 
 import {
@@ -56,7 +55,6 @@ const categoryData = (state = categoriesState, action) => {
 }
 
 export default combineReducers({
-  router: routerReducer,
   postsData,
   categoryData,
   selectedCategory
