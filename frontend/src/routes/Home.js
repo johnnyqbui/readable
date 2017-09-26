@@ -27,12 +27,12 @@ class Home extends Component {
 	}
 
 	render() {
-		const { postsData, categoryData } = this.props;
+		const { postsData } = this.props;
 		return (
 			<div className='main'>
-				<Categories onClick={ this.handleUpdateHistory }/>
+				<Categories onClickUpdateHistory={ this.handleUpdateHistory }/>
 				{ postsData.isFetching ? <h2>Loading...</h2>
-					: <PostsList posts={ postsData.posts } /> }
+					: <PostsList /> }
 			</div>
 		)
 	}
@@ -40,8 +40,8 @@ class Home extends Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = (state) => {
-	const { postsData, categoryData, selectedCategory } = state;
-	return { postsData, categoryData, selectedCategory }
+	const { postsData } = state;
+	return { postsData }
 }
 
 const mapDispatchToProps = (dispatch) => ({

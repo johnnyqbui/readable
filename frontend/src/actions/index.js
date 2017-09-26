@@ -3,6 +3,7 @@ const baseApi = 'http://localhost:3001';
 export const GET_POSTS = 'GET_POSTS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const SELECTED_CATEGORY = 'SELECTED_CATEGORY';
+export const GET_POSTDETAILS = 'GET_POSTDETAILS';
 
 const selectedCategory = category => {
 	return {
@@ -23,6 +24,21 @@ const getCategories = categories => {
 		type: GET_CATEGORIES,
 		categories
 	}
+}
+
+const getPostDetails = postDetails => {
+	return {
+		type: GET_POSTDETAILS,
+		postDetails
+	}
+}
+
+export const fetchPostDetails = id => dispatch => {
+	fetch(`${baseApi}/posts/${id}`, { headers: { 'Authorization': 'jb' }})
+    .then( res => res.json() )
+    .then( postDetails =>
+    	dispatch(getPostDetails(postDetails))
+    )
 }
 
 export const fetchCategoryData = category => dispatch => {

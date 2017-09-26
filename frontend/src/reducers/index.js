@@ -3,7 +3,8 @@ import { combineReducers } from 'redux'
 import {
   GET_POSTS,
   GET_CATEGORIES,
-  SELECTED_CATEGORY } from '../actions'
+  SELECTED_CATEGORY,
+  GET_POSTDETAILS } from '../actions'
 
 const postsState = {
   isFetching: true,
@@ -21,6 +22,19 @@ const selectedCategory = (state = { category: 'all' }, action) => {
       return {
         ...state,
         category
+      }
+    default :
+      return state
+  }
+}
+
+const postDetails = (state = { postDetails: {} }, action) => {
+  const { postDetails } = action;
+  switch (action.type) {
+    case GET_POSTDETAILS :
+      return {
+        ...state,
+        ...postDetails
       }
     default :
       return state
@@ -55,6 +69,7 @@ const categoryData = (state = categoriesState, action) => {
 }
 
 export default combineReducers({
+  postDetails,
   postsData,
   categoryData,
   selectedCategory

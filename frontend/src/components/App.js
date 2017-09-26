@@ -10,8 +10,8 @@ class App extends Component {
     return (
       <div className="App">
         <Switch>
-          <Route path='/:category?' render={({match, history}) =>
-            <Home match={match} history={history}></Home>
+          <Route path='/:category?' render={({match, location, history}) =>
+            <Home match={match} location={location} history={history}></Home>
           }/>
           <Route path='/create' component={CreateEditPosts} />
           <Route render={() => <h1>Page not found</h1>} />
