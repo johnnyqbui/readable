@@ -15,6 +15,11 @@ const categoriesState = {
   categories: []
 }
 
+const postDetailsState = {
+  postDetails: {},
+  isOpen: false
+}
+
 const selectedCategory = (state = { category: 'all' }, action) => {
   const { category } = action;
   switch (action.type) {
@@ -28,12 +33,13 @@ const selectedCategory = (state = { category: 'all' }, action) => {
   }
 }
 
-const postDetails = (state = { postDetails: {} }, action) => {
+const postDetails = (state = postDetailsState, action) => {
   const { postDetails } = action;
   switch (action.type) {
     case GET_POSTDETAILS :
       return {
         ...state,
+        isOpen: !state.isOpen,
         ...postDetails
       }
     default :

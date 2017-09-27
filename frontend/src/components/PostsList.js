@@ -1,13 +1,20 @@
 import React from 'react';
 import moment from 'moment';
+import MdStar from 'react-icons/lib/md/star';
+
 import { connect } from 'react-redux';
-import { fetchPostDetails } from '../actions';
+import { fetchPostDetails, updateVotes } from '../actions';
 
 const PostsList = (props) => {
-	const { posts, postDetails, fetchPostDetails } = props;
+	const { posts, postDetails, fetchPostDetails, updateVotes } = props;
 	const handleGetPostDetails = (id) => {
 		fetchPostDetails(id)
 	}
+
+	const handleUpdateVotes = (id) => {
+		updateVotes(id)
+	}
+
 	return (
 		<div className='posts-list'>
 			<div className='posts-header'>
@@ -17,10 +24,13 @@ const PostsList = (props) => {
 				{posts && posts.map((post, i) =>
 					<li
 						key={i}
-						onClick={e => handleGetPostDetails(post.id)}>
-						<span>{post.voteScore} </span> {post.title}<br/>
+						onClick={e => handleGetPostDetails(post.id)}
+					>
+						<MdStar onClick={e => handleUpdateVotes(post.id)} />
+						<span>{post.id === postDetails.id ? postDetails.voteScore : post.voteScore }</span>
+						{post.title}<br/>
 						<span><em>{post.author}</em> posted at {moment(post.timestamp).format('MMM-DD-YYYY hh:mm A').toString()}</span>
-						{post.id === postDetails.id ? <p>{postDetails.body}</p> : ''}
+						<p>{post.id === postDetails.id ? postDetails.body : ''}</p>
 					</li>
 				)}
 			</ul>
@@ -38,7 +48,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	fetchPostDetails: id => dispatch(fetchPostDetails(id))
+	fetchPostDetails: id => dispatch(fetchPostDetails(id)),
+	updateVotes: id => dispatch(updateVotes(id))
 })
 
 export default connect(

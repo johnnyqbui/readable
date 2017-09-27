@@ -31,8 +31,10 @@ class Home extends Component {
 		return (
 			<div className='main'>
 				<Categories onClickUpdateHistory={ this.handleUpdateHistory }/>
-				{ postsData.isFetching ? <h2>Loading...</h2>
-					: <PostsList /> }
+				{ postsData.isFetching
+					? <h2>Loading...</h2>
+					: <PostsList />
+				}
 			</div>
 		)
 	}

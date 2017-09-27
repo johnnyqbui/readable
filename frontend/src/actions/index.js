@@ -4,6 +4,7 @@ export const GET_POSTS = 'GET_POSTS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const SELECTED_CATEGORY = 'SELECTED_CATEGORY';
 export const GET_POSTDETAILS = 'GET_POSTDETAILS';
+export const POST_VOTE = 'POST_VOTE';
 
 const selectedCategory = category => {
 	return {
@@ -61,3 +62,20 @@ export const fecthInitialData = () => dispatch => {
     .then( posts => dispatch(getPosts(posts)) )
 }
 
+
+export const updateVotes = id => dispatch => {
+	fetch(`${baseApi}/posts/${id}`, {
+		headers: {
+			'Authorization': 'jb',
+			'Content-Type': 'application/json'
+		},
+		method: 'POST',
+		body: JSON.stringify({
+			option: 'upVote'
+		})
+	})
+    .then( res => res.json() )
+    .then( postDetails =>
+    	dispatch(getPostDetails(postDetails))
+    )
+}
