@@ -17,12 +17,12 @@ ul li {
   width: 100%;
 }
 
-.posts-list ul {
+.posts-list {
   padding: 0;
   margin: 30px;
 }
 
-.posts-list ul li {
+.posts-list .posts {
   padding: 10px;
   cursor: pointer;
   border: 2px solid #00ffa9;
@@ -30,9 +30,18 @@ ul li {
   transition: .2s;
 }
 
-.posts-list ul li span {
+.posts-list .posts span {
   color: #a2a4a9;
   font-weight: bold;
+}
+
+.post-title {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.vote-icon {
+  font-size: 30px;
 }
 
 .categories {

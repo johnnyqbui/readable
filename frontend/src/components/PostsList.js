@@ -1,18 +1,23 @@
 import React from 'react';
 import moment from 'moment';
-import MdStar from 'react-icons/lib/md/star';
+import TiArrowSortedUp from 'react-icons/lib/ti/arrow-sorted-up';
+import TiArrowSortedDown from 'react-icons/lib/ti/arrow-sorted-down';
 
 import { connect } from 'react-redux';
-import { fetchPostDetails, updateVotes } from '../actions';
+import { fetchPostDetails, upVotes, downVotes } from '../actions';
 
 const PostsList = (props) => {
-	const { posts, postDetails, fetchPostDetails, updateVotes } = props;
+	const { posts, postDetails, fetchPostDetails, upVotes, downVotes } = props;
 	const handleGetPostDetails = (id) => {
 		fetchPostDetails(id)
 	}
 
-	const handleUpdateVotes = (id) => {
-		updateVotes(id)
+	const handleUpVotes = (id) => {
+		upVotes(id)
+	}
+
+	const handleDownVotes = (id) => {
+		downVotes(id)
 	}
 
 	return (
@@ -20,20 +25,22 @@ const PostsList = (props) => {
 			<div className='posts-header'>
 				<h2>Posts</h2>
 			</div>
-			<ul>
-				{posts && posts.map((post, i) =>
-					<li
-						key={i}
-						onClick={e => handleGetPostDetails(post.id)}
-					>
-						<MdStar onClick={e => handleUpdateVotes(post.id)} />
-						<span>{post.id === postDetails.id ? postDetails.voteScore : post.voteScore }</span>
-						{post.title}<br/>
-						<span><em>{post.author}</em> posted at {moment(post.timestamp).format('MMM-DD-YYYY hh:mm A').toString()}</span>
-						<p>{post.id === postDetails.id ? postDetails.body : ''}</p>
-					</li>
-				)}
-			</ul>
+			{posts && posts.map((post, i) =>
+				<div
+					className='posts'
+					key={i}
+					onClick={e => handleGetPostDetails(post.id)}
+				>
+					<p className='post-title'>{post.title}</p>
+					<p>{post.id === postDetails.id ? postDetails.body : ''}</p>
+					<span><em>{post.author}</em> posted at {moment(post.timestamp).format('MMM-DD-YYYY hh:mm A').toString()}</span>
+					<div>
+						<TiArrowSortedUp className='vote-icon' onClick={e => handleUpVotes(post.id)} />
+						{post.id === postDetails.id ? postDetails.voteScore : post.voteScore }
+						<TiArrowSortedDown className='vote-icon' onClick={e => handleDownVotes(post.id)} />
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }
@@ -49,7 +56,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	fetchPostDetails: id => dispatch(fetchPostDetails(id)),
-	updateVotes: id => dispatch(updateVotes(id))
+	upVotes: id => dispatch(upVotes(id)),
+	downVotes: id => dispatch(downVotes(id))
 })
 
 export default connect(

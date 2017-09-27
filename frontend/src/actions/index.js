@@ -63,7 +63,7 @@ export const fecthInitialData = () => dispatch => {
 }
 
 
-export const updateVotes = id => dispatch => {
+export const upVotes = id => dispatch => {
 	fetch(`${baseApi}/posts/${id}`, {
 		headers: {
 			'Authorization': 'jb',
@@ -72,6 +72,23 @@ export const updateVotes = id => dispatch => {
 		method: 'POST',
 		body: JSON.stringify({
 			option: 'upVote'
+		})
+	})
+    .then( res => res.json() )
+    .then( postDetails =>
+    	dispatch(getPostDetails(postDetails))
+    )
+}
+
+export const downVotes = id => dispatch => {
+	fetch(`${baseApi}/posts/${id}`, {
+		headers: {
+			'Authorization': 'jb',
+			'Content-Type': 'application/json'
+		},
+		method: 'POST',
+		body: JSON.stringify({
+			option: 'downVote'
 		})
 	})
     .then( res => res.json() )
