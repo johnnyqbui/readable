@@ -39,6 +39,10 @@ export const fetchPostDetails = id => dispatch => {
     .then( postDetails =>
     	dispatch(getPostDetails(postDetails))
     )
+
+    fetch(`${baseApi}/posts`, { headers: { 'Authorization': 'jb' }})
+    .then( res => res.json() )
+    .then( posts => dispatch(getPosts(posts)) )
 }
 
 export const fetchCategoryData = category => dispatch => {

@@ -8,6 +8,7 @@ import { fetchPostDetails, postUpVotes, postDownVotes, putEditPost } from '../ac
 
 class PostsList extends Component {
 	state = {
+		id: null,
 		title: '',
   		body: '',
   		edit: false
@@ -28,12 +29,12 @@ class PostsList extends Component {
 	}
 
 	handleEditPost = (post) => {
-		const { id, title, body } = post;
-		console.log(this.props.postDetails)
+		const { postDetails } = this.props;
+		let postInfo = postDetails.hasOwnProperty('id') ? postDetails : post
 		this.setState({
-			id: this.props.postDetails.id,
-			title: this.props.postDetails.title,
-			body: this.props.postDetails.body,
+			id: postInfo.id,
+			title: postInfo.title,
+			body: postInfo.body,
 			edit: !this.state.edit
 		})
 	}
@@ -48,16 +49,18 @@ class PostsList extends Component {
 
 	handleSubmit = (e) => {
 		const { id, title, body } = this.state;
+		const { fetchPostDetails, putEditPost } = this.props;
 	  	const details = {
 	  		id,
 	  		title,
 	  		body
 	  	}
-	    this.props.putEditPost(details)
-	    e.preventDefault();
 	    this.setState({
-	    	edit: false
-	    })
+			edit: false
+		})
+		fetchPostDetails(id)
+	    putEditPost(details)
+		e.preventDefault();
 	 }
 
 	render() {
@@ -67,14 +70,8 @@ class PostsList extends Component {
 				<h2 className='posts-header'>Posts</h2>
 				<Link to='/submit'>Create New Post</Link>
 				{postList && postList.map((post, i) =>
-					<div
-						className='posts'
-						key={i}
-						onClick={e => {
-							this.handleGetPostDetails(post.id)}
-						}
-					>
-						<button onClick={e => this.handleEditPost(post)}>Edit Post</button>
+					<div className='posts' key={i} onClick={e => this.handleGetPostDetails(post.id)}>
+						{post.id === postDetails.id ? <button onClick={e => this.handleEditPost(post)}>Edit Post</button> : ''}
 						{this.state.edit && post.id === postDetails.id
 							? <form onSubmit={this.handleSubmit}>
 								<label>
@@ -101,11 +98,10 @@ class PostsList extends Component {
 						        <input type="submit" value="Submit" />
 							</form>
 							: <div>
-								<p className='post-title'>{post.title}</p>
+								<p className='post-title'>{post.id === postDetails.id ? postDetails.title : post.title}</p>
 							 	<p>{post.id === postDetails.id ? postDetails.body : ''}</p>
 							 </div>
 						}
-						<p>{post.id}</p>
 						<span><em>{post.author}</em> posted at {moment(post.timestamp).format('MMM-DD-YYYY hh:mm A').toString()}</span>
 						<div>
 							<TiArrowSortedUp className='vote-icon' onClick={e => this.handleUpVotes(post.id)} />
