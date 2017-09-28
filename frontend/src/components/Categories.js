@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchCategoryData } from '../actions';
+import { handleSelectedCategory } from '../actions'
 
 const Categories = (props) => {
-	const { categories, selectedCategory, onClickUpdateHistory } = props;
+	const { categories, selectedCategory, onClickUpdateHistory, handleSelectedCategory } = props;
 	return (
 		<div className='categories'>
 			<h2>Categories</h2>
@@ -13,7 +13,10 @@ const Categories = (props) => {
 					<li
 						key={i}
 						className={ category.name === selectedCategory ? 'isActive' : ''}
-						onClick={e => onClickUpdateHistory(category.name)}
+						onClick={e => {
+							onClickUpdateHistory(category.name)
+							handleSelectedCategory(category.name)
+						}}
 					>
 						{category.name}
 					</li>
@@ -34,7 +37,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	fetchCategoryData: (category) => dispatch(fetchCategoryData(category))
+	handleSelectedCategory: (category) => dispatch(handleSelectedCategory(category))
 })
 
 export default connect(

@@ -1,12 +1,12 @@
+import uuid from 'uuid';
 const baseApi = 'http://localhost:3001';
 
 export const GET_POSTS = 'GET_POSTS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const SELECTED_CATEGORY = 'SELECTED_CATEGORY';
 export const GET_POSTDETAILS = 'GET_POSTDETAILS';
-export const POST_VOTE = 'POST_VOTE';
 
-const selectedCategory = category => {
+export const handleSelectedCategory = category => {
 	return {
 		type: SELECTED_CATEGORY,
 		category
@@ -48,7 +48,6 @@ export const fetchCategoryData = category => dispatch => {
     .then( res => res.json() )
     .then( posts =>
     	dispatch(getPosts(posts)),
-    	dispatch(selectedCategory(category))
     )
 }
 
@@ -62,8 +61,22 @@ export const fecthInitialData = () => dispatch => {
     .then( posts => dispatch(getPosts(posts)) )
 }
 
+export const postNewPost = details => dispatch => {
+	fetch(`${baseApi}/posts`, {
+		headers: {
+			'Authorization': 'jb',
+			'Content-Type': 'application/json'
+		},
+		method: 'POST',
+		body: JSON.stringify(details)
+	})
+    .then( res => res.json() )
+    .then( postDetails =>
+    	dispatch(getPostDetails(postDetails))
+    )
+}
 
-export const upVotes = id => dispatch => {
+export const postUpVotes = id => dispatch => {
 	fetch(`${baseApi}/posts/${id}`, {
 		headers: {
 			'Authorization': 'jb',
@@ -80,7 +93,7 @@ export const upVotes = id => dispatch => {
     )
 }
 
-export const downVotes = id => dispatch => {
+export const postDownVotes = id => dispatch => {
 	fetch(`${baseApi}/posts/${id}`, {
 		headers: {
 			'Authorization': 'jb',

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import PostsList from '../components/PostsList';
 import Categories from '../components/Categories';
 import { connect } from 'react-redux';
 import { fecthInitialData, fetchCategoryData, } from '../actions';
+import Submit from '../routes/Submit';
 
 class Home extends Component {
 	componentWillReceiveProps(nextProps) {
@@ -27,14 +29,17 @@ class Home extends Component {
 	}
 
 	render() {
-		const { postsData } = this.props;
+		const { postListData } = this.props;
 		return (
 			<div className='main'>
 				<Categories onClickUpdateHistory={ this.handleUpdateHistory }/>
-				{ postsData.isFetching
-					? <h2>Loading...</h2>
-					: <PostsList />
-				}
+				<Switch>
+					<Route path='/submit' component={Submit} />
+					{ postListData.isFetching
+						? <h2>Loading...</h2>
+						: <PostsList />
+					}
+				</Switch>
 			</div>
 		)
 	}
@@ -42,8 +47,8 @@ class Home extends Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = (state) => {
-	const { postsData } = state;
-	return { postsData }
+	const { postListData } = state;
+	return { postListData }
 }
 
 const mapDispatchToProps = (dispatch) => ({

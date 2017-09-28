@@ -6,7 +6,7 @@ import {
   SELECTED_CATEGORY,
   GET_POSTDETAILS } from '../actions'
 
-const postsState = {
+const postListState = {
   isFetching: true,
   posts: []
 }
@@ -47,7 +47,7 @@ const postDetails = (state = postDetailsState, action) => {
   }
 }
 
-const postsData = (state = postsState, action) => {
+const postListData = (state = postListState, action) => {
   const { posts } = action;
   switch (action.type) {
     case GET_POSTS :
@@ -76,7 +76,7 @@ const categoryData = (state = categoriesState, action) => {
 
 export default combineReducers({
   postDetails,
-  postsData,
+  postListData,
   categoryData,
   selectedCategory
 })
