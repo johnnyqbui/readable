@@ -61,13 +61,28 @@ export const fecthInitialData = () => dispatch => {
 }
 
 export const postNewPost = details => dispatch => {
-	console.log(details)
 	fetch(`${baseApi}/posts`, {
 		headers: {
 			'Authorization': 'jb',
 			'Content-Type': 'application/json'
 		},
 		method: 'POST',
+		body: JSON.stringify(details)
+	})
+    .then( res => res.json() )
+    .then( postDetails =>
+    	dispatch(getPostDetails(postDetails))
+    )
+}
+
+export const putEditPost = details => dispatch => {
+	const id = details.id;
+	fetch(`${baseApi}/posts/${id}`, {
+		headers: {
+			'Authorization': 'jb',
+			'Content-Type': 'application/json'
+		},
+		method: 'PUT',
 		body: JSON.stringify(details)
 	})
     .then( res => res.json() )

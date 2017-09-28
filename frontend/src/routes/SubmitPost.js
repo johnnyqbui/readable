@@ -14,9 +14,10 @@ class Submit extends React.Component {
   handleChange = (e) => {
   	const name = e.target.name;
   	const value = e.target.value;
+  	const category = name === 'category' ? value : '';
   	this.setState({
   		[name]: value,
-  		category: name === 'category' ? value : ''
+  		category
   	})
   }
 

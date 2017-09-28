@@ -17,6 +17,7 @@ const categoriesState = {
 
 const postDetailsState = {
   postDetails: {},
+  edit: false,
   isOpen: false
 }
 
@@ -39,7 +40,6 @@ const postDetails = (state = postDetailsState, action) => {
     case GET_POSTDETAILS :
       return {
         ...state,
-        isOpen: !state.isOpen,
         ...postDetails
       }
     default :

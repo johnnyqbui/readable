@@ -4,7 +4,7 @@ import PostsList from '../components/PostsList';
 import Categories from '../components/Categories';
 import { connect } from 'react-redux';
 import { fecthInitialData, fetchCategoryData, } from '../actions';
-import Submit from '../routes/Submit';
+import SubmitPost from '../routes/SubmitPost';
 
 class Home extends Component {
 	componentWillReceiveProps(nextProps) {
@@ -34,11 +34,11 @@ class Home extends Component {
 			<div className='main'>
 				<Categories onClickUpdateHistory={ this.handleUpdateHistory }/>
 				<Switch>
-					<Route path='/submit' component={Submit} />
-					{ postListData.isFetching
+					<Route path='/submit' component={SubmitPost} />
+					<Route render={() => postListData.isFetching
 						? <h2>Loading...</h2>
 						: <PostsList />
-					}
+					} />
 				</Switch>
 			</div>
 		)
