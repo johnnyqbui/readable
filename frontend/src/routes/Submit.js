@@ -58,16 +58,21 @@ class Submit extends React.Component {
 	          		/>
 	        	</label>
 	        	<br/>
-	        	<label>
-		          	Category:
-		          	<select value={selectedCategory === 'all' ? this.state.selectedCategory : selectedCategory} onChange={this.handleChange}>
-		          		{categories.map((category, i) =>
-		          			category.name === 'all'
-		          			? ''
-		          			: <option key={i} value={category.name}>{category.name}</option>
-		          		)}
-		          	</select>
-		        </label>
+
+	        	{ selectedCategory === 'all'
+		        	? <label>
+			          	Category:
+			          	<select value={this.state.selectedCategory} onChange={this.handleChange}>
+			          		{categories.map((category, i) =>
+			          			<option key={i} value={category.name}>{category.name}</option>
+			          		)}
+			          	</select>
+			          </label>
+		          	: <label>
+		          		Category: { selectedCategory }
+		          	  </label>
+		         }
+
 	        	<br/>
 	        	<input type="submit" value="Submit" />
 	    	</form>
