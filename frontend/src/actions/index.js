@@ -1,4 +1,3 @@
-import uuid from 'uuid';
 const baseApi = 'http://localhost:3001';
 
 export const GET_POSTS = 'GET_POSTS';
@@ -62,6 +61,7 @@ export const fecthInitialData = () => dispatch => {
 }
 
 export const postNewPost = details => dispatch => {
+	console.log(details)
 	fetch(`${baseApi}/posts`, {
 		headers: {
 			'Authorization': 'jb',

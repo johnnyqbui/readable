@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import uuid from 'uuid';
+import { postNewPost } from '../actions';
 
 class Submit extends React.Component {
   state = {
-  	author: 'Author name here',
-  	title: 'Title here',
-  	body: 'Please write an essay about your favorite DOM element.',
-  	selectedCategory: ''
+  	author: '',
+  	title: '',
+  	body: '',
+  	category: ''
   };
 
   handleChange = (e) => {
@@ -14,13 +16,18 @@ class Submit extends React.Component {
   	const value = e.target.value;
   	this.setState({
   		[name]: value,
-  		selectedCategory: value
+  		category: name === 'category' ? value : ''
   	})
   }
 
-  handleSubmit = (event) => {
-    alert('A name was submitted: ' + this.state.body);
-    event.preventDefault();
+  handleSubmit = (e) => {
+  	const details = {
+  		...this.state,
+  		id: uuid(),
+  		timestamp: Date.now()
+  	}
+    this.props.postNewPost(details)
+    e.preventDefault();
   }
 
   render() {
@@ -52,18 +59,19 @@ class Submit extends React.Component {
 	        	<label>
 		          	Body:
 		          	<textarea
+		          		style={{'width': 300, 'height': 100}}
 		          		name='body'
 		          		value={this.state.body}
 		          		onChange={this.handleChange}
 	          		/>
 	        	</label>
 	        	<br/>
-
 	        	{ selectedCategory === 'all'
 		        	? <label>
 			          	Category:
-			          	<select value={this.state.selectedCategory} onChange={this.handleChange}>
-			          		{categories.map((category, i) =>
+			          	<select name='category' value={this.state.category} onChange={this.handleChange}>
+			          		<option disabled value=''></option>
+			          		{categories.map((category, i) =>  category.name === 'all' ? '' :
 			          			<option key={i} value={category.name}>{category.name}</option>
 			          		)}
 			          	</select>
@@ -91,7 +99,12 @@ const mapStateToProps = (state) => {
 	}
 }
 
+const mapDispatchToProps = (dispatch) => ({
+	postNewPost: (details) => dispatch(postNewPost(details))
+})
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps
 )(Submit)
 
