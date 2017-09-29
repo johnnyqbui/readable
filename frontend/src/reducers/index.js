@@ -28,7 +28,7 @@ const selectedCategory = (state = { category: 'all' }, action) => {
   }
 }
 
-const postDetails = (state = {}, action) => {
+const postDetails = (state = { isOpen: false }, action) => {
   const { postDetails } = action;
   switch (action.type) {
     case GET_POSTDETAILS :

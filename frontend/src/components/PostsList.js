@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import TiArrowSortedUp from 'react-icons/lib/ti/arrow-sorted-up';
 import TiArrowSortedDown from 'react-icons/lib/ti/arrow-sorted-down';
-import { fetchPostDetails, postUpVotes, postDownVotes, putEditPost } from '../actions';
+import { fetchPosts, fetchPostDetails, postUpVotes, postDownVotes, putEditPost, deletePost } from '../actions';
 
 class PostsList extends Component {
 	state = {
@@ -13,8 +13,12 @@ class PostsList extends Component {
   		body: '',
   		edit: false
 	}
-	handleGetPostDetails = (id) => {
+	handleOpenPosts = (id) => {
 		const { fetchPostDetails } = this.props;
+		this.setState({
+			id,
+			edit: false
+		})
 		fetchPostDetails(id)
 	}
 
@@ -29,12 +33,11 @@ class PostsList extends Component {
 	}
 
 	handleEditPost = (post) => {
-		const { postDetails } = this.props;
-		let postInfo = postDetails.hasOwnProperty('id') ? postDetails : post
+		const { id, title, body } = post;
 		this.setState({
-			id: postInfo.id,
-			title: postInfo.title,
-			body: postInfo.body,
+			id,
+			title,
+			body,
 			edit: !this.state.edit
 		})
 	}
@@ -47,9 +50,15 @@ class PostsList extends Component {
 	  	})
 	}
 
+	handleDeletePost = (id) => {
+		const { fetchPosts, deletePost } = this.props;
+		deletePost(id)
+		fetchPosts()
+	}
+
 	handleSubmit = (e) => {
 		const { id, title, body } = this.state;
-		const { fetchPostDetails, putEditPost } = this.props;
+		const { fetchPosts, putEditPost } = this.props;
 	  	const details = {
 	  		id,
 	  		title,
@@ -58,7 +67,6 @@ class PostsList extends Component {
 	    this.setState({
 			edit: false
 		})
-		fetchPostDetails(id)
 	    putEditPost(details)
 		e.preventDefault();
 	 }
@@ -68,9 +76,12 @@ class PostsList extends Component {
 		return (
 			<div className='posts-list'>
 				<h2 className='posts-header'>Posts</h2>
-				<Link to='/submit'>Create New Post</Link>
+				<Link to='/submit'>Submit New Post</Link>
 				{postList && postList.map((post, i) =>
-					<div className='posts' key={i} onClick={e => this.handleGetPostDetails(post.id)}>
+					<div className='posts' key={i}>
+						<button onClick={e => this.handleOpenPosts(post.id)}>Open</button>
+						<br/>
+						<button onClick={e => this.handleDeletePost(post.id)}>Delete</button>
 						{post.id === postDetails.id ? <button onClick={e => this.handleEditPost(post)}>Edit Post</button> : ''}
 						{this.state.edit && post.id === postDetails.id
 							? <form onSubmit={this.handleSubmit}>
@@ -98,11 +109,12 @@ class PostsList extends Component {
 						        <input type="submit" value="Submit" />
 							</form>
 							: <div>
-								<p className='post-title'>{post.id === postDetails.id ? postDetails.title : post.title}</p>
-							 	<p>{post.id === postDetails.id ? postDetails.body : ''}</p>
+								<p className='post-title'>{post.title}</p>
+							 	<p>{post.id === postDetails.id ? post.body : ''}</p>
 							 </div>
 						}
 						<span><em>{post.author}</em> posted at {moment(post.timestamp).format('MMM-DD-YYYY hh:mm A').toString()}</span>
+						<br/>
 						<div>
 							<TiArrowSortedUp className='vote-icon' onClick={e => this.handleUpVotes(post.id)} />
 							{post.id === postDetails.id ? postDetails.voteScore : post.voteScore }
@@ -125,10 +137,12 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-	fetchPostDetails: id => dispatch(fetchPostDetails(id)),
 	postUpVotes: id => dispatch(postUpVotes(id)),
 	postDownVotes: id => dispatch(postDownVotes(id)),
-	putEditPost: details => dispatch(putEditPost(details))
+	putEditPost: details => dispatch(putEditPost(details)),
+	fetchPostDetails: id => dispatch(fetchPostDetails(id)),
+	deletePost: id => dispatch(deletePost(id)),
+	fetchPosts: () => dispatch(fetchPosts())
 })
 
 export default connect(

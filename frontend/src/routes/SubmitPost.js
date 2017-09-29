@@ -2,19 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import uuid from 'uuid';
 import { postNewPost } from '../actions';
+import { Redirect } from 'react-router-dom';
 
 class Submit extends React.Component {
   state = {
   	author: '',
   	title: '',
   	body: '',
-  	category: ''
+  	category: 'react',
+  	submitted: false
   };
 
   handleChange = (e) => {
   	const name = e.target.name;
   	const value = e.target.value;
-  	const category = name === 'category' ? value : '';
+  	const category = name === 'category' ? value : this.state.category;
   	this.setState({
   		[name]: value,
   		category
@@ -28,13 +30,18 @@ class Submit extends React.Component {
   		timestamp: Date.now()
   	}
     this.props.postNewPost(details)
+    this.setState({
+    	submitted: true
+    })
     e.preventDefault();
   }
 
   render() {
   	const { categories, selectedCategory } = this.props;
     return (
-	    <div className='form'>
+    	this.state.submitted ?
+    	<Redirect to={`/${selectedCategory}`} />
+    	: <div className='form'>
 	    	<h3>Submit a Post</h3>
 	    	<form onSubmit={this.handleSubmit}>
 	    		<label>
@@ -71,8 +78,7 @@ class Submit extends React.Component {
 		        	? <label>
 			          	Category:
 			          	<select name='category' value={this.state.category} onChange={this.handleChange}>
-			          		<option disabled value=''></option>
-			          		{categories.map((category, i) =>  category.name === 'all' ? '' :
+			          		{categories.map((category, i) => category.name === 'all' ? '' :
 			          			<option key={i} value={category.name}>{category.name}</option>
 			          		)}
 			          	</select>

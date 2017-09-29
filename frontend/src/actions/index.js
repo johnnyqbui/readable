@@ -33,16 +33,18 @@ const getPostDetails = postDetails => {
 	}
 }
 
+export const fetchPosts = () => dispatch => {
+	fetch(`${baseApi}/posts`, { headers: { 'Authorization': 'jb' }})
+    .then( res => res.json() )
+    .then( posts => dispatch(getPosts(posts)) )
+}
+
 export const fetchPostDetails = id => dispatch => {
 	fetch(`${baseApi}/posts/${id}`, { headers: { 'Authorization': 'jb' }})
     .then( res => res.json() )
     .then( postDetails =>
     	dispatch(getPostDetails(postDetails))
     )
-
-    fetch(`${baseApi}/posts`, { headers: { 'Authorization': 'jb' }})
-    .then( res => res.json() )
-    .then( posts => dispatch(getPosts(posts)) )
 }
 
 export const fetchCategoryData = category => dispatch => {
@@ -122,6 +124,20 @@ export const postDownVotes = id => dispatch => {
 		body: JSON.stringify({
 			option: 'downVote'
 		})
+	})
+    .then( res => res.json() )
+    .then( postDetails =>
+    	dispatch(getPostDetails(postDetails))
+    )
+}
+
+export const deletePost = id => dispatch => {
+	fetch(`${baseApi}/posts/${id}`, {
+		headers: {
+			'Authorization': 'jb',
+			'Content-Type': 'application/json'
+		},
+		method: 'DELETE'
 	})
     .then( res => res.json() )
     .then( postDetails =>
