@@ -1,46 +1,75 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { handleSelectedCategory } from '../actions'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import {
+	fetchPosts,
+	fetchCategories,
+	fetchCategoryPosts,
+	handleSelectedCategory
+} from "../actions";
 
-const Categories = (props) => {
-	const { categories, selectedCategory, onClickUpdateHistory, handleSelectedCategory } = props;
-	return (
-		<div className='categories'>
-			<h2>Categories</h2>
-			<ul>
-			{categories.length && categories.map((category, i) => {
-				return (
-					<li
-						key={i}
-						className={ category.name === selectedCategory ? 'isActive' : ''}
-						onClick={e => {
-							onClickUpdateHistory(category.name)
-							handleSelectedCategory(category.name)
-						}}
-					>
-						{category.name}
-					</li>
-				)
-			})}
-			</ul>
-		</div>
-	)
-}
+class Categories extends Component {
+	componentDidMount() {
+		const { fetchCategories } = this.props;
+		fetchCategories();
+	}
 
-// Passing state as props, from reducers
-const mapStateToProps = (state) => {
-	const { categoryData, selectedCategory } = state;
-	return {
-		categories: categoryData.categories,
-		selectedCategory: selectedCategory.category
+	handleClickCategory(selectedCategory) {
+		const {
+			fetchPosts,
+			fetchCategories,
+			fetchCategoryPosts,
+			handleSelectedCategory
+		} = this.props;
+		handleSelectedCategory(selectedCategory);
+		selectedCategory === "all"
+			? fetchPosts()
+			: fetchCategoryPosts(selectedCategory);
+	}
+
+	render() {
+		const { categories, selectedCategory } = this.props;
+		return (
+			<div className="categories">
+				<h2>Categories</h2>
+				<ul>
+					{categories.length &&
+						categories.map((category, i) => {
+							return (
+								<Link key={i} to={`${category.name}`}>
+									<li
+										className={
+											category.name === selectedCategory ? "isActive" : ""
+										}
+										onClick={e => {
+											this.handleClickCategory(category.name);
+										}}
+									>
+										{category.name}
+									</li>
+								</Link>
+							);
+						})}
+				</ul>
+			</div>
+		);
 	}
 }
 
-const mapDispatchToProps = (dispatch) => ({
-	handleSelectedCategory: (category) => dispatch(handleSelectedCategory(category))
-})
+// Passing state as props, from reducers
+const mapStateToProps = state => {
+	const { categoryData, selectedCategory } = state;
+	return {
+		categories: categoryData.categories,
+		...selectedCategory
+	};
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Categories)
+const mapDispatchToProps = dispatch => ({
+	fetchPosts: () => dispatch(fetchPosts()),
+	fetchCategories: () => dispatch(fetchCategories()),
+	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category)),
+	handleSelectedCategory: category => dispatch(handleSelectedCategory(category))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);

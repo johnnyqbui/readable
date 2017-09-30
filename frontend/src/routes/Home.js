@@ -1,62 +1,63 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import PostsList from '../components/PostsList';
-import Categories from '../components/Categories';
-import { connect } from 'react-redux';
-import { fecthInitialData, fetchCategoryData, } from '../actions';
-import SubmitPost from '../routes/SubmitPost';
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
+import PostsList from "../components/PostsList";
+import Categories from "../components/Categories";
+import { connect } from "react-redux";
+import {
+	fetchPosts,
+	fetchCategories,
+	fetchCategoryPosts,
+	handleSelectedCategory
+} from "../actions";
+import SubmitPost from "../routes/SubmitPost";
 
 class Home extends Component {
-	componentWillReceiveProps(nextProps) {
-		// handle history parems
-		const prevCategory = this.props.match.params.category
-		const nextCategory = nextProps.match.params.category
-		if (prevCategory !== nextCategory) {
-			this.props.fetchCategoryData(nextCategory)
-		}
-	}
 	componentDidMount() {
-		// Handle initial data load if params exist
-		const { fecthInitialData, fetchCategoryData } = this.props;
-		const categoryParams = this.props.match.params.category
-		fecthInitialData()
-
-		if (categoryParams) { fetchCategoryData(categoryParams) }
-	}
-
-	handleUpdateHistory = (category) => {
-		this.props.history.push(category)
+		// Fetch initial data
+		const {
+			fetchPosts,
+			fetchCategoryPosts,
+			handleSelectedCategory,
+			categories
+		} = this.props;
+		const categoryParams = this.props.match.params.category;
+		handleSelectedCategory(categoryParams)
+		!categoryParams || categoryParams === "all"
+			? fetchPosts()
+			: fetchCategoryPosts(categoryParams);
 	}
 
 	render() {
-		const { postListData } = this.props;
+		const { postList } = this.props;
 		return (
-			<div className='main'>
-				<Categories onClickUpdateHistory={ this.handleUpdateHistory }/>
+			<div className="main">
+				<Categories />
 				<Switch>
-					<Route path='/submit' component={SubmitPost} />
-					<Route render={() => postListData.isFetching
-						? <h2>Loading...</h2>
-						: <PostsList />
-					} />
+					<Route path="/submit" component={SubmitPost} />
+					<Route
+						render={() =>
+							postList.isFetching ? <h2>Loading...</h2> : <PostsList />}
+					/>
 				</Switch>
 			</div>
-		)
+		);
 	}
 }
 
 // Passing state as props, from reducers
-const mapStateToProps = (state) => {
-	const { postListData } = state;
-	return { postListData }
-}
+const mapStateToProps = state => {
+	const { postList, categoryData } = state;
+	return {
+		postList,
+		categories: categoryData.categories
+	};
+};
 
-const mapDispatchToProps = (dispatch) => ({
-	fecthInitialData: () => dispatch(fecthInitialData()),
-	fetchCategoryData: category => dispatch(fetchCategoryData(category)),
-})
+const mapDispatchToProps = dispatch => ({
+	fetchPosts: () => dispatch(fetchPosts()),
+	fetchCategories: () => dispatch(fetchCategories()),
+	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category)),
+	handleSelectedCategory: category => dispatch(handleSelectedCategory(category))
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
