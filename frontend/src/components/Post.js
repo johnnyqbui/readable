@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
+import CommentsList from "./CommentsList";
+
 import {
+	fetchComments,
 	updateVotePost,
 	editPost,
 	deletePost,
@@ -36,6 +39,12 @@ class Post extends Component {
 			edit: !this.state.edit
 		});
 	};
+
+	showMoreDetails = id => {
+		const { fetchComments, toggleVisibility } = this.props;
+		fetchComments(id)
+		toggleVisibility(id)
+	}
 
 	handleSubmit = e => {
 		const { id, title, body } = this.state;
@@ -74,11 +83,13 @@ class Post extends Component {
 						} = post;
 						return (
 							<div className="posts" key={i}>
-								<button onClick={e => toggleVisibility(id)}>More</button>
+								<button onClick={e => this.showMoreDetails(id)}>More</button>
 
 								{isVisible ? (
 									<div className="post-options">
-										<button onClick={e => this.handleEditPost(post)}>Edit Post</button>
+										<button onClick={e => this.handleEditPost(post)}>
+											Edit Post
+										</button>
 										<br />
 										<button onClick={e => deletePost(id)}>Delete</button>
 									</div>
@@ -113,7 +124,14 @@ class Post extends Component {
 								) : (
 									<div>
 										<p className="post-title">{title}</p>
-										<p>{isVisible ? body : ""}</p>
+										{isVisible ? (
+											<div>
+												<p>{body}</p>
+												<CommentsList />
+											</div>
+										) : (
+											""
+										)}
 									</div>
 								)}
 								<span>
@@ -127,21 +145,17 @@ class Post extends Component {
 									<TiArrowSortedUp
 										className="vote-icon"
 										onClick={e => {
-											const option = 'upVote';
-											return (
-												updateVotePost(id, option)
-											)}
-										}
+											const option = "upVote";
+											return updateVotePost(id, option);
+										}}
 									/>
 									{voteScore}
 									<TiArrowSortedDown
 										className="vote-icon"
 										onClick={e => {
-											const option = 'downVote';
-											return (
-												updateVotePost(id, option)
-											)}
-										}
+											const option = "downVote";
+											return updateVotePost(id, option);
+										}}
 									/>
 								</div>
 							</div>
@@ -161,6 +175,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
+	fetchComments: id => dispatch(fetchComments(id)),
 	updateVotePost: (id, option) => dispatch(updateVotePost(id, option)),
 	editPost: details => dispatch(editPost(details)),
 	deletePost: id => dispatch(deletePost(id)),

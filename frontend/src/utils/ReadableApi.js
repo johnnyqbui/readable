@@ -43,7 +43,6 @@ export const deletePost = id =>
 export const getCats = () =>
 	fetch(`${baseApi}/categories`, { ...headers }).then(res => res.json());
 
-
 // COMMENTS
 
 export const getComments = id =>

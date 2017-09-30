@@ -1,9 +1,9 @@
 import * as ReadableApi from "../utils/ReadableApi";
 
-export const TOGGLE_VISIBILITY = "TOGGLE_VISIBILITY";
 export const SELECTED_CATEGORY = "SELECTED_CATEGORY";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 
+export const TOGGLE_VISIBILITY = "TOGGLE_VISIBILITY";
 export const GET_POSTS = "GET_POSTS";
 export const ADD_POST = "ADD_POST";
 export const EDIT_POST = "EDIT_POST";
@@ -16,6 +16,26 @@ export const EDIT_COMMENT = "EDIT_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const UPDATE_VOTE_COMMENT = "UPDATE_VOTE_COMMENT";
 
+
+// CATEGORIES
+export const fetchCategories = () => dispatch => {
+	ReadableApi.getCats().then(categories =>
+		dispatch({
+			type: GET_CATEGORIES,
+			categories
+		})
+	);
+};
+
+export const fetchCategoryPosts = category => dispatch => {
+	ReadableApi.getPosts(category).then(posts =>
+		dispatch({
+			type: GET_POSTS,
+			posts
+		})
+	);
+};
+
 export const handleSelectedCategory = selectedCategory => {
 	return {
 		type: SELECTED_CATEGORY,
@@ -23,13 +43,15 @@ export const handleSelectedCategory = selectedCategory => {
 	};
 };
 
+
+
+// POSTS
 export const toggleVisibility = id => {
 	return {
 		type: TOGGLE_VISIBILITY,
 		id
 	};
 };
-
 
 export const fetchPosts = () => dispatch => {
 	ReadableApi.getPosts().then(posts =>
@@ -78,70 +100,50 @@ export const deletePost = id => dispatch => {
 };
 
 
-// CATEGORIES
-export const fetchCategories = () => dispatch => {
-	ReadableApi.getCats().then(categories =>
-		dispatch({
-			type: GET_CATEGORIES,
-			categories
-		})
-	);
-};
-
-export const fetchCategoryPosts = category => dispatch => {
-	ReadableApi.getPosts(category).then(posts =>
-		dispatch({
-			type: GET_POSTS,
-			posts
-		})
-	);
-};
-
-
 
 // COMMENTS
-export const fetchComments = () => dispatch => {
-	ReadableApi.getComments().then(posts =>
+export const fetchComments = id => dispatch => {
+	ReadableApi.getComments(id).then(comments =>
 		dispatch({
 			type: GET_COMMENTS,
-			posts
+			comments
 		})
 	);
 };
 
 export const addComment = details => dispatch => {
-	ReadableApi.addComment(details).then(postDetails =>
+	ReadableApi.addComment(details).then(commentDetails =>
 		dispatch({
 			type: ADD_COMMENT,
-			postDetails
+			commentDetails
 		})
 	);
 };
 
 export const updateVoteComment = (id, option) => dispatch => {
-	ReadableApi.updateVoteComment(id, option).then(postDetails =>
+	ReadableApi.updateVoteComment(id, option).then(commentDetails =>
 		dispatch({
 			type: UPDATE_VOTE_COMMENT,
-			postDetails,
+			commentDetails,
 			option
 		})
 	);
 };
 
 export const editComment = details => dispatch => {
-	ReadableApi.editComment(details).then(postDetails =>
+	ReadableApi.editComment(details).then(commentDetails =>
 		dispatch({
 			type: EDIT_COMMENT,
-			postDetails
+			commentDetails
 		})
 	);
 };
 
 export const deleteComment = id => dispatch => {
-	ReadableApi.deleteComment(id).then(postDetails =>
+	ReadableApi.deleteComment(id).then(commentDetails =>
 		dispatch({
 			type: DELETE_COMMENT,
-			postDetails
+			commentDetails
 		})
 	);
 };

@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
 import {
-  TOGGLE_VISIBILITY,
   SELECTED_CATEGORY,
   GET_CATEGORIES,
+  TOGGLE_VISIBILITY,
   GET_POSTS,
   ADD_POST,
   EDIT_POST,
@@ -56,12 +56,12 @@ const postData = (state = postDataState, action) => {
   const { posts, postDetails, option } = action;
   switch (action.type) {
     case GET_POSTS:
-      posts.map(post => {
-        return (post["isVisible"] = false);
-      });
       return {
         ...state,
-        posts,
+        posts: posts.map(post => {
+          post["isVisible"] = false;
+          return post;
+        }),
         isFetching: false
       };
 
@@ -130,12 +130,13 @@ const commentDataState = {
 };
 
 const commentData = (state = commentDataState, action) => {
-  const { comments, commentDetails } = action;
+  const { comments, commentDetails, option } = action;
   switch (action.type) {
     case GET_COMMENTS:
       return {
         ...state,
-        comments
+        comments,
+        isFetching: false
       };
 
     case ADD_COMMENT:
@@ -168,7 +169,7 @@ const commentData = (state = commentDataState, action) => {
         )
       };
 
-    case DELETE_POST:
+    case DELETE_COMMENT:
       return {
         ...state,
         comments: state.comments.filter(
