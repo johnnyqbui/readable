@@ -5,9 +5,8 @@ import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
 import {
-	postUpVotes,
-	postDownVotes,
-	putEditPost,
+	updateVotePost,
+	editPost,
 	deletePost,
 	toggleVisibility
 } from "../actions";
@@ -40,7 +39,7 @@ class Post extends Component {
 
 	handleSubmit = e => {
 		const { id, title, body } = this.state;
-		const { putEditPost } = this.props;
+		const { editPost } = this.props;
 		const details = {
 			id,
 			title,
@@ -49,15 +48,14 @@ class Post extends Component {
 		this.setState({
 			edit: false
 		});
-		putEditPost(details);
+		editPost(details);
 		e.preventDefault();
 	};
 
 	render() {
 		const {
 			postList,
-			postUpVotes,
-			postDownVotes,
+			updateVotePost,
 			deletePost,
 			toggleVisibility
 		} = this.props;
@@ -128,12 +126,22 @@ class Post extends Component {
 								<div>
 									<TiArrowSortedUp
 										className="vote-icon"
-										onClick={e => postUpVotes(id)}
+										onClick={e => {
+											const option = 'upVote';
+											return (
+												updateVotePost(id, option)
+											)}
+										}
 									/>
 									{voteScore}
 									<TiArrowSortedDown
 										className="vote-icon"
-										onClick={e => postDownVotes(id)}
+										onClick={e => {
+											const option = 'downVote';
+											return (
+												updateVotePost(id, option)
+											)}
+										}
 									/>
 								</div>
 							</div>
@@ -153,9 +161,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	postUpVotes: id => dispatch(postUpVotes(id)),
-	postDownVotes: id => dispatch(postDownVotes(id)),
-	putEditPost: details => dispatch(putEditPost(details)),
+	updateVotePost: (id, option) => dispatch(updateVotePost(id, option)),
+	editPost: details => dispatch(editPost(details)),
 	deletePost: id => dispatch(deletePost(id)),
 	toggleVisibility: id => dispatch(toggleVisibility(id))
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import uuid from "uuid";
-import { fetchPosts, postNewPost } from "../actions";
+import { fetchPosts, addPost } from "../actions";
 import { Redirect } from "react-router-dom";
 
 class SubmitPost extends React.Component {
@@ -29,7 +29,7 @@ class SubmitPost extends React.Component {
 			id: uuid(),
 			timestamp: Date.now()
 		};
-		this.props.postNewPost(details);
+		this.props.addPost(details);
 		this.setState({
 			submitted: true
 		});
@@ -123,7 +123,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	postNewPost: details => dispatch(postNewPost(details)),
+	addPost: details => dispatch(addPost(details)),
 	fetchPosts: () => dispatch(fetchPosts())
 });
 

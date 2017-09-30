@@ -1,17 +1,50 @@
 import { combineReducers } from "redux";
 
 import {
-  GET_POSTS,
-  GET_CATEGORIES,
-  SELECTED_CATEGORY,
   TOGGLE_VISIBILITY,
-  GET_POSTDETAILS,
+  SELECTED_CATEGORY,
+  GET_CATEGORIES,
+  GET_POSTS,
   ADD_POST,
   EDIT_POST,
   DELETE_POST,
-  UPVOTE_POST,
-  DOWNVOTE_POST
+  UPDATE_VOTE_POST,
+  GET_COMMENTS,
+  ADD_COMMENT,
+  EDIT_COMMENT,
+  DELETE_COMMENT,
+  UPDATE_VOTE_COMMENT
 } from "../actions";
+
+const categoriesState = {
+  categories: []
+};
+
+const categoryData = (state = categoriesState, action) => {
+  const { categories } = action;
+  switch (action.type) {
+    case GET_CATEGORIES:
+      return {
+        ...state,
+        ...categories
+      };
+    default:
+      return state;
+  }
+};
+
+const selectedCategory = (state = { selectedCategory: "all" }, action) => {
+  const { selectedCategory } = action;
+  switch (action.type) {
+    case SELECTED_CATEGORY:
+      return {
+        ...state,
+        selectedCategory
+      };
+    default:
+      return state;
+  }
+};
 
 const postDataState = {
   isFetching: true,
@@ -20,7 +53,7 @@ const postDataState = {
 };
 
 const postData = (state = postDataState, action) => {
-  const { posts, postDetails } = action;
+  const { posts, postDetails, option } = action;
   switch (action.type) {
     case GET_POSTS:
       posts.map(post => {
@@ -32,16 +65,23 @@ const postData = (state = postDataState, action) => {
         isFetching: false
       };
 
-    case GET_POSTDETAILS:
-      return {
-        ...state,
-        ...postDetails
-      };
-
     case ADD_POST:
       return {
         ...state,
         posts: [...state.posts, postDetails]
+      };
+
+    case UPDATE_VOTE_POST:
+      return {
+        ...state,
+        posts: state.posts.map(post => {
+          if (post.id === postDetails.id) {
+            option === "upVote" ? (post.voteScore += 1) : (post.voteScore -= 1);
+            return post;
+          } else {
+            return post;
+          }
+        })
       };
 
     case EDIT_POST:
@@ -76,69 +116,74 @@ const postData = (state = postDataState, action) => {
         })
       };
 
-    case UPVOTE_POST:
-      return {
-        ...state,
-        posts: state.posts.map(post => {
-          if (post.id === postDetails.id) {
-            post.voteScore += 1;
-            return post;
-          } else {
-            return post;
-          }
-        })
-      };
-
-    case DOWNVOTE_POST:
-      return {
-        ...state,
-        posts: state.posts.map(post => {
-          if (post.id === postDetails.id) {
-            post.voteScore -= 1;
-            return post;
-          } else {
-            return post;
-          }
-        })
-      };
-
     default:
       return state;
   }
 };
 
-const categoriesState = {
-  categories: []
+// COMMENTS
+
+const commentDataState = {
+  isFetching: true,
+  comments: {},
+  commentDetails: {}
 };
 
-const categoryData = (state = categoriesState, action) => {
-  const { categories } = action;
+const commentData = (state = commentDataState, action) => {
+  const { comments, commentDetails } = action;
   switch (action.type) {
-    case GET_CATEGORIES:
+    case GET_COMMENTS:
       return {
         ...state,
-        ...categories
+        comments
       };
-    default:
-      return state;
-  }
-};
 
-const selectedCategory = (state = { selectedCategory: "all" }, action) => {
-  const { selectedCategory } = action;
-  switch (action.type) {
-    case SELECTED_CATEGORY:
+    case ADD_COMMENT:
       return {
         ...state,
-        selectedCategory
+        comments: [...state.comments, commentDetails]
       };
+
+    case UPDATE_VOTE_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.map(comment => {
+          if (comment.id === commentDetails.id) {
+            option === "upVote"
+              ? (comment.voteScore += 1)
+              : (comment.voteScore -= 1);
+            return comment;
+          } else {
+            return comment;
+          }
+        })
+      };
+
+    case EDIT_COMMENT:
+      return {
+        ...state,
+        comments: state.comments.map(
+          comment =>
+            comment.id === commentDetails.id ? { ...commentDetails } : comment
+        )
+      };
+
+    case DELETE_POST:
+      return {
+        ...state,
+        comments: state.comments.filter(
+          comment => (comment.id !== commentDetails.id ? comment : "")
+        )
+      };
+
     default:
       return state;
   }
 };
 
 export default combineReducers({
-  postData,
   categoryData,
+  postData,
+  commentData,
   selectedCategory
 });
