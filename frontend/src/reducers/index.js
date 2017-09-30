@@ -62,18 +62,19 @@ const postData = (state = postDataState, action) => {
     case EDIT_POST:
       return {
         ...state,
-        posts: state.posts.map(post => post.id === postDetails.id
-          ? { ...postDetails, isVisible: post.isVisible }
-          : post
+        posts: state.posts.map(
+          post =>
+            post.id === postDetails.id
+              ? { ...postDetails, isVisible: post.isVisible }
+              : post
         )
       };
 
     case DELETE_POST:
       return {
         ...state,
-        posts: state.posts.filter( post => post.id !== postDetails.id
-          ? post
-          : ""
+        posts: state.posts.filter(
+          post => (post.id !== postDetails.id ? post : "")
         )
       };
 

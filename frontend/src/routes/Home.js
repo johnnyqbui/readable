@@ -5,7 +5,6 @@ import Categories from "../components/Categories";
 import { connect } from "react-redux";
 import {
 	fetchPosts,
-	fetchCategories,
 	fetchCategoryPosts,
 	handleSelectedCategory
 } from "../actions";
@@ -55,7 +54,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
 	fetchPosts: () => dispatch(fetchPosts()),
-	fetchCategories: () => dispatch(fetchCategories()),
 	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category)),
 	handleSelectedCategory: category => dispatch(handleSelectedCategory(category))
 });

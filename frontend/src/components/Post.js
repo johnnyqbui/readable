@@ -32,13 +32,15 @@ class Post extends Component {
 	};
 
 	handleUpVotes = id => {
-		const { postUpVotes } = this.props;
+		const { fetchPosts, postUpVotes } = this.props;
 		postUpVotes(id);
+		fetchPosts()
 	};
 
 	handleDownVotes = id => {
-		const { postDownVotes } = this.props;
+		const { fetchPosts, postDownVotes } = this.props;
 		postDownVotes(id);
+		fetchPosts()
 	};
 
 	handleEditPost = post => {
@@ -80,7 +82,7 @@ class Post extends Component {
 	};
 
 	render() {
-		const { postList, postDetails } = this.props;
+		const { postList } = this.props;
 		return (
 			<div>
 				{postList &&
@@ -137,9 +139,7 @@ class Post extends Component {
 									className="vote-icon"
 									onClick={e => this.handleUpVotes(post.id)}
 								/>
-								{post.id === postDetails.id
-									? postDetails.voteScore
-									: post.voteScore}
+								{post.voteScore}
 								<TiArrowSortedDown
 									className="vote-icon"
 									onClick={e => this.handleDownVotes(post.id)}
@@ -157,7 +157,6 @@ const mapStateToProps = state => {
 	const { postData } = state;
 	return {
 		postList: postData.posts,
-		postDetails: postData.postDetails
 	};
 };
 
