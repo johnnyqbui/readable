@@ -19,28 +19,26 @@ class Post extends Component {
 		id: null,
 		title: "",
 		body: "",
-		edit: false
+		edit: false,
 	};
 
 	handleOpenPosts = id => {
 		const { fetchPostDetails, toggleVisibility } = this.props;
-		this.setState({
-			id,
-			edit: false
-		});
+		// this.setState({
+		// 	id,
+		// 	edit: false
+		// });
 		toggleVisibility(id);
 	};
 
 	handleUpVotes = id => {
-		const { fetchPosts, postUpVotes } = this.props;
+		const { postUpVotes } = this.props;
 		postUpVotes(id);
-		fetchPosts()
 	};
 
 	handleDownVotes = id => {
-		const { fetchPosts, postDownVotes } = this.props;
+		const { postDownVotes } = this.props;
 		postDownVotes(id);
-		fetchPosts()
 	};
 
 	handleEditPost = post => {

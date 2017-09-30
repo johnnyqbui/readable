@@ -8,30 +8,15 @@ import {
   GET_POSTDETAILS,
   ADD_POST,
   EDIT_POST,
-  DELETE_POST
+  DELETE_POST,
+  UPVOTE_POST,
+  DOWNVOTE_POST
 } from "../actions";
 
 const postDataState = {
   isFetching: true,
   posts: {},
   postDetails: {}
-};
-
-const categoriesState = {
-  categories: []
-};
-
-const selectedCategory = (state = { selectedCategory: "all" }, action) => {
-  const { selectedCategory } = action;
-  switch (action.type) {
-    case SELECTED_CATEGORY:
-      return {
-        ...state,
-        selectedCategory
-      };
-    default:
-      return state;
-  }
 };
 
 const postData = (state = postDataState, action) => {
@@ -43,8 +28,8 @@ const postData = (state = postDataState, action) => {
       });
       return {
         ...state,
-        isFetching: false,
-        posts
+        posts,
+        isFetching: false
       };
 
     case GET_POSTDETAILS:
@@ -79,16 +64,51 @@ const postData = (state = postDataState, action) => {
       };
 
     case TOGGLE_VISIBILITY:
-      state.posts.map(post => {
-        post.id === action.id ? (post.isVisible = !post.isVisible) : "";
-      });
       return {
-        ...state
+        ...state,
+        posts: state.posts.map(post => {
+          if (post.id === action.id) {
+            post.isVisible = !post.isVisible;
+            return post;
+          } else {
+            return post;
+          }
+        })
+      };
+
+    case UPVOTE_POST:
+      return {
+        ...state,
+        posts: state.posts.map(post => {
+          if (post.id === postDetails.id) {
+            post.voteScore += 1;
+            return post;
+          } else {
+            return post;
+          }
+        })
+      };
+
+    case DOWNVOTE_POST:
+      return {
+        ...state,
+        posts: state.posts.map(post => {
+          if (post.id === postDetails.id) {
+            post.voteScore -= 1;
+            return post;
+          } else {
+            return post;
+          }
+        })
       };
 
     default:
       return state;
   }
+};
+
+const categoriesState = {
+  categories: []
 };
 
 const categoryData = (state = categoriesState, action) => {
@@ -98,6 +118,19 @@ const categoryData = (state = categoriesState, action) => {
       return {
         ...state,
         ...categories
+      };
+    default:
+      return state;
+  }
+};
+
+const selectedCategory = (state = { selectedCategory: "all" }, action) => {
+  const { selectedCategory } = action;
+  switch (action.type) {
+    case SELECTED_CATEGORY:
+      return {
+        ...state,
+        selectedCategory
       };
     default:
       return state;
