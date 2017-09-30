@@ -7,19 +7,21 @@ import {
   TOGGLE_VISIBILITY,
   GET_POSTDETAILS,
   ADD_POST,
+  EDIT_POST,
   DELETE_POST
 } from "../actions";
 
-const postListState = {
+const postDataState = {
   isFetching: true,
-  posts: {}
+  posts: {},
+  postDetails: {}
 };
 
 const categoriesState = {
   categories: []
 };
 
-const selectedCategory = (state = { selectedCategory: 'all' }, action) => {
+const selectedCategory = (state = { selectedCategory: "all" }, action) => {
   const { selectedCategory } = action;
   switch (action.type) {
     case SELECTED_CATEGORY:
@@ -32,28 +34,23 @@ const selectedCategory = (state = { selectedCategory: 'all' }, action) => {
   }
 };
 
-const postDetails = (state = { isOpen: false }, action) => {
-  const { postDetails } = action;
-  switch (action.type) {
-    case GET_POSTDETAILS:
-      return {
-        ...state,
-        ...postDetails
-      };
-    default:
-      return state;
-  }
-};
-
-const postList = (state = postListState, action) => {
+const postData = (state = postDataState, action) => {
   const { posts, postDetails } = action;
   switch (action.type) {
     case GET_POSTS:
-      posts.map(post => { return post['isVisible'] = false })
+      posts.map(post => {
+        return (post["isVisible"] = false);
+      });
       return {
         ...state,
         isFetching: false,
         posts
+      };
+
+    case GET_POSTDETAILS:
+      return {
+        ...state,
+        ...postDetails
       };
 
     case ADD_POST:
@@ -62,17 +59,32 @@ const postList = (state = postListState, action) => {
         posts: [...state.posts, postDetails]
       };
 
+    case EDIT_POST:
+      return {
+        ...state,
+        posts: state.posts.map(post => post.id === postDetails.id
+          ? { ...postDetails, isVisible: post.isVisible }
+          : post
+        )
+      };
+
     case DELETE_POST:
       return {
         ...state,
-        posts: state.posts.filter(post => post.id !== postDetails.id ? post : '')
+        posts: state.posts.filter( post => post.id !== postDetails.id
+          ? post
+          : ""
+        )
       };
 
     case TOGGLE_VISIBILITY:
-      state.posts.map(post => {post.id === action.id ? post.isVisible = !post.isVisible : ''})
+      state.posts.map(post => {
+        post.id === action.id ? (post.isVisible = !post.isVisible) : "";
+      });
       return {
         ...state
-      }
+      };
+
     default:
       return state;
   }
@@ -92,8 +104,7 @@ const categoryData = (state = categoriesState, action) => {
 };
 
 export default combineReducers({
-  postDetails,
-  postList,
+  postData,
   categoryData,
   selectedCategory
 });

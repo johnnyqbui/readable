@@ -83,20 +83,19 @@ class Post extends Component {
 		const { postList, postDetails } = this.props;
 		return (
 			<div>
-				{postList && postList.map((post, i) =>
+				{postList &&
+					postList.map((post, i) => (
 						<div className="posts" key={i}>
 							<button onClick={e => this.handleOpenPosts(post.id)}>Open</button>
 							<br />
 							<button onClick={e => this.handleDeletePost(post.id)}>Delete</button>
-							{post.id === postDetails.id ? (
-								<button onClick={e => this.handleEditPost(post)}>
-									Edit Post
-								</button>
+							{post.isVisible ? (
+								<button onClick={e => this.handleEditPost(post)}>Edit Post</button>
 							) : (
 								""
 							)}
-							{this.state.edit && post.id === postDetails.id ? (
-								<form onSubmit={this.handleSubmit}>
+							{this.state.edit && this.state.id === post.id ? (
+								<form onSubmit={this.handleSubmit} autoComplete="off">
 									<label>
 										Title:
 										<input
@@ -147,18 +146,18 @@ class Post extends Component {
 								/>
 							</div>
 						</div>
-					)}
+					))}
 			</div>
-		)
+		);
 	}
 }
 
 // Passing state as props, from reducers
 const mapStateToProps = state => {
-	const { postList, postDetails } = state;
+	const { postData } = state;
 	return {
-		postList: postList.posts,
-		postDetails
+		postList: postData.posts,
+		postDetails: postData.postDetails
 	};
 };
 

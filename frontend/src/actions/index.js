@@ -1,11 +1,17 @@
 const baseApi = "http://localhost:3001";
-
+const headers = {
+	headers: {
+		Authorization: "DefinitelyNotAHorse",
+		"Content-Type": "application/json"
+	}
+};
 export const GET_POSTS = "GET_POSTS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const SELECTED_CATEGORY = "SELECTED_CATEGORY";
-export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
+export const TOGGLE_VISIBILITY = "TOGGLE_VISIBILITY";
 export const GET_POSTDETAILS = "GET_POSTDETAILS";
 export const ADD_POST = "ADD_POST";
+export const EDIT_POST = "EDIT_POST";
 export const DELETE_POST = "DELETE_POST";
 
 export const handleSelectedCategory = selectedCategory => {
@@ -19,8 +25,8 @@ export const toggleVisibility = id => {
 	return {
 		type: TOGGLE_VISIBILITY,
 		id
-	}
-}
+	};
+};
 
 const getPosts = posts => {
 	return {
@@ -44,60 +50,32 @@ const getPostDetails = postDetails => {
 };
 
 export const fetchCategories = () => dispatch => {
-	fetch(`${baseApi}/categories`, {
-		headers: {
-			Authorization: "DefinitelyNotAHorse",
-			"Content-Type": "application/json"
-		}
-	})
+	fetch(`${baseApi}/categories`, { ...headers })
 		.then(res => res.json())
 		.then(categories => dispatch(getCategories(categories)));
 };
 
 export const fetchCategoryPosts = category => dispatch => {
-	fetch(`${baseApi}/${category}/posts`, {
-		headers: { Authorization: "DefinitelyNotAHorse" }
-	})
+	fetch(`${baseApi}/${category}/posts`, { ...headers })
 		.then(res => res.json())
 		.then(posts => dispatch(getPosts(posts)));
 };
 
 export const fetchPosts = () => dispatch => {
-	fetch(`${baseApi}/posts`, {
-		headers: { Authorization: "DefinitelyNotAHorse" }
-	})
+	fetch(`${baseApi}/posts`, { ...headers })
 		.then(res => res.json())
 		.then(posts => dispatch(getPosts(posts)));
 };
 
 export const fetchPostDetails = id => dispatch => {
-	fetch(`${baseApi}/posts/${id}`, {
-		headers: { Authorization: "DefinitelyNotAHorse" }
-	})
-		.then(res => res.json())
-		.then(postDetails => dispatch(getPostDetails(postDetails)));
-};
-
-export const putEditPost = details => dispatch => {
-	const id = details.id;
-	fetch(`${baseApi}/posts/${id}`, {
-		headers: {
-			Authorization: "DefinitelyNotAHorse",
-			"Content-Type": "application/json"
-		},
-		method: "PUT",
-		body: JSON.stringify(details)
-	})
+	fetch(`${baseApi}/posts/${id}`, { ...headers })
 		.then(res => res.json())
 		.then(postDetails => dispatch(getPostDetails(postDetails)));
 };
 
 export const postUpVotes = id => dispatch => {
 	fetch(`${baseApi}/posts/${id}`, {
-		headers: {
-			Authorization: "DefinitelyNotAHorse",
-			"Content-Type": "application/json"
-		},
+		...headers,
 		method: "POST",
 		body: JSON.stringify({
 			option: "upVote"
@@ -109,10 +87,7 @@ export const postUpVotes = id => dispatch => {
 
 export const postDownVotes = id => dispatch => {
 	fetch(`${baseApi}/posts/${id}`, {
-		headers: {
-			Authorization: "DefinitelyNotAHorse",
-			"Content-Type": "application/json"
-		},
+		...headers,
 		method: "POST",
 		body: JSON.stringify({
 			option: "downVote"
@@ -122,33 +97,40 @@ export const postDownVotes = id => dispatch => {
 		.then(postDetails => dispatch(getPostDetails(postDetails)));
 };
 
-
-
-
 export const postNewPost = details => dispatch => {
 	fetch(`${baseApi}/posts`, {
-		headers: {
-			Authorization: "DefinitelyNotAHorse",
-			"Content-Type": "application/json"
-		},
+		...headers,
 		method: "POST",
 		body: JSON.stringify(details)
 	})
 		.then(res => res.json())
-		.then(postDetails => {
+		.then(postDetails =>
 			dispatch({
 				type: ADD_POST,
 				postDetails
-			});
-		});
+			})
+		);
+};
+
+export const putEditPost = details => dispatch => {
+	const id = details.id;
+	fetch(`${baseApi}/posts/${id}`, {
+		...headers,
+		method: "PUT",
+		body: JSON.stringify(details)
+	})
+		.then(res => res.json())
+		.then(postDetails =>
+			dispatch({
+				type: EDIT_POST,
+				postDetails
+			})
+		);
 };
 
 export const deletePost = id => dispatch => {
 	fetch(`${baseApi}/posts/${id}`, {
-		headers: {
-			Authorization: "DefinitelyNotAHorse",
-			"Content-Type": "application/json"
-		},
+		...headers,
 		method: "DELETE"
 	})
 		.then(res => res.json())

@@ -28,7 +28,7 @@ class Home extends Component {
 	}
 
 	render() {
-		const { postList } = this.props;
+		const { postData } = this.props;
 		return (
 			<div className="main">
 				<Categories />
@@ -36,7 +36,7 @@ class Home extends Component {
 					<Route path="/submit" component={SubmitPost} />
 					<Route
 						render={() =>
-							postList.isFetching ? <h2>Loading...</h2> : <PostsList />}
+							postData.isFetching ? <h2>Loading...</h2> : <PostsList />}
 					/>
 				</Switch>
 			</div>
@@ -46,9 +46,9 @@ class Home extends Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = state => {
-	const { postList, categoryData } = state;
+	const { postData, categoryData } = state;
 	return {
-		postList,
+		postData,
 		categories: categoryData.categories
 	};
 };
