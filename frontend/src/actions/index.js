@@ -8,8 +8,8 @@ export const GET_POSTDETAILS = "GET_POSTDETAILS";
 export const ADD_POST = "ADD_POST";
 export const EDIT_POST = "EDIT_POST";
 export const DELETE_POST = "DELETE_POST";
-export const UPVOTE_POST = 'UPVOTE_POST'
-export const DOWNVOTE_POST = 'DOWNVOTE_POST'
+export const UPVOTE_POST = "UPVOTE_POST";
+export const DOWNVOTE_POST = "DOWNVOTE_POST";
 
 export const handleSelectedCategory = selectedCategory => {
 	return {
@@ -25,44 +25,13 @@ export const toggleVisibility = id => {
 	};
 };
 
-const getPosts = posts => {
-	return {
-		type: GET_POSTS,
-		posts
-	};
-};
-
-const getCategories = categories => {
-	return {
-		type: GET_CATEGORIES,
-		categories
-	};
-};
-
-const getPostDetails = postDetails => {
-	return {
-		type: GET_POSTDETAILS,
-		postDetails
-	};
-};
-
-export const fetchCategories = () => dispatch => {
-	ReadableApi.getCats().then(categories => dispatch(getCategories(categories)));
-};
-
-
-
-export const fetchCategoryPosts = category => dispatch => {
-	ReadableApi.getPosts(category).then(posts => dispatch(getPosts(posts)));
-};
 
 export const fetchPosts = () => dispatch => {
-	ReadableApi.getPosts().then(posts => dispatch(getPosts(posts)));
-};
-
-export const fetchPostDetails = id => dispatch => {
-	ReadableApi.getPostsDetails(id).then(postDetails =>
-		dispatch(getPostDetails(postDetails))
+	ReadableApi.getPosts().then(posts =>
+		dispatch({
+			type: GET_POSTS,
+			posts
+		})
 	);
 };
 
@@ -72,7 +41,7 @@ export const postUpVotes = id => dispatch => {
 			type: UPVOTE_POST,
 			postDetails
 		})
-	);;
+	);
 };
 
 export const postDownVotes = id => dispatch => {
@@ -81,7 +50,7 @@ export const postDownVotes = id => dispatch => {
 			type: DOWNVOTE_POST,
 			postDetails
 		})
-	);;
+	);
 };
 
 export const postNewPost = details => dispatch => {
@@ -107,6 +76,26 @@ export const deletePost = id => dispatch => {
 		dispatch({
 			type: DELETE_POST,
 			postDetails
+		})
+	);
+};
+
+
+
+export const fetchCategories = () => dispatch => {
+	ReadableApi.getCats().then(categories =>
+		dispatch({
+			type: GET_CATEGORIES,
+			categories
+		})
+	);
+};
+
+export const fetchCategoryPosts = category => dispatch => {
+	ReadableApi.getPosts(category).then(posts =>
+		dispatch({
+			type: GET_POSTS,
+			posts
 		})
 	);
 };
