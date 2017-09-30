@@ -41,7 +41,7 @@ class SubmitPost extends React.Component {
 		return this.state.submitted ? (
 			<Redirect to={`/${selectedCategory}`} />
 		) : (
-			<div className="form">
+			<div className="submit-post">
 				<h3>Submit a Post</h3>
 				<form onSubmit={this.handleSubmit} autoComplete="off">
 					<label>

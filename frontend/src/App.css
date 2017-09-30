@@ -8,18 +8,20 @@ ul li {
   display: flex;
 }
 
+.submit-post {
+  width: 100%;
+  margin: 10px 30px;
+}
+
 .posts-header h2 {
   text-align: center;
   margin: 1em 0 2em 0;
 }
 
 .posts-list {
-  width: 100%;
-}
-
-.posts-list {
   padding: 0;
   margin: 30px;
+  width: 100%;
 }
 
 .posts-list .posts {
@@ -75,3 +77,33 @@ ul li {
 .isActive {
   background: rgba(0, 255, 169, 1);
 }
+
+
+.comments-header h2 {
+  text-align: center;
+  margin: 1em 0 2em 0;
+}
+
+.comments-list {
+  padding: 0;
+  margin: 30px;
+}
+
+.comments-list .comments {
+  padding: 10px;
+  cursor: pointer;
+  border: 2px solid #00ffa9;
+  margin: 10px 0;
+  transition: .2s;
+}
+
+.comments-list .comments span {
+  color: #a2a4a9;
+  font-weight: bold;
+}
+
+.comment-title {
+  font-size: 1em;
+  font-weight: bold;
+}
+
