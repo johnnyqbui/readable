@@ -5,12 +5,14 @@ import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
 import { updateVoteComment, editComment, deleteComment } from "../actions";
+import CommentSubmitForm from './CommentSubmitForm'
 
 class Comment extends Component {
 	state = {
 		id: null,
 		body: "",
-		edit: false
+		openEdit: false,
+		openSubmit: false
 	};
 
 	handleChange = e => {
@@ -18,15 +20,6 @@ class Comment extends Component {
 		const value = e.target.value;
 		this.setState({
 			[name]: value
-		});
-	};
-
-	handleEditComment = comment => {
-		const { id, body } = comment;
-		this.setState({
-			id,
-			body,
-			edit: !this.state.edit
 		});
 	};
 
@@ -39,10 +32,25 @@ class Comment extends Component {
 			timestamp: Date.now()
 		};
 		this.setState({
-			edit: false
+			openEdit: false
 		});
 		editComment(details);
 		e.preventDefault();
+	};
+
+	openEditComment = comment => {
+		const { id, body } = comment;
+		this.setState({
+			id,
+			body,
+			openEdit: !this.state.openEdit
+		});
+	};
+
+	openSubmitComment = () => {
+		this.setState({
+			openSubmitComment: !this.state.openSubmitComment
+		});
 	};
 
 	render() {
@@ -68,13 +76,13 @@ class Comment extends Component {
 							return (
 								<div className="comments" key={i}>
 									<div className="comment-options">
-										<button onClick={e => this.handleEditComment(comment)}>
+										<button onClick={e => this.openEditComment(comment)}>
 											Edit comment
 										</button>
 										<br />
 										<button onClick={e => deleteComment(id)}>Delete</button>
 									</div>
-									{this.state.edit && this.state.id === id ? (
+									{this.state.openEdit && this.state.id === id ? (
 										<form onSubmit={this.handleSubmit} autoComplete="off">
 											<label>
 												Body:
@@ -121,6 +129,7 @@ class Comment extends Component {
 								</div>
 							);
 						})}
+					<CommentSubmitForm />
 			</div>
 		);
 	}

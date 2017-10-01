@@ -8,6 +8,7 @@ import {
   EDIT_POST,
   DELETE_POST,
   UPDATE_VOTE_POST,
+
   GET_COMMENTS,
   GOT_COMMENTS,
   ADD_COMMENT,
@@ -76,10 +77,8 @@ const postData = (state = postDataState, action) => {
         posts: state.posts.map(post => {
           if (post.id === postDetails.id) {
             option === "upVote" ? (post.voteScore += 1) : (post.voteScore -= 1);
-            return post;
-          } else {
-            return post;
           }
+          return post;
         })
       };
 
