@@ -4,11 +4,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
-import {
-	updateVoteComment,
-	editComment,
-	deleteComment
-} from "../actions";
+import { updateVoteComment, editComment, deleteComment } from "../actions";
 
 class Comment extends Component {
 	state = {
@@ -50,68 +46,81 @@ class Comment extends Component {
 	};
 
 	render() {
-		const { commentList, isFetching, updateVoteComment, deleteComment } = this.props;
+		const {
+			commentList,
+			isFetching,
+			updateVoteComment,
+			deleteComment
+		} = this.props;
 		return (
 			<div>
-				{isFetching ? '' :
-					commentList.map((comment, i) => {
-						const { id, parentId, author, body, voteScore, timestamp } = comment;
-						return (
-							<div className="comments" key={i}>
-								<div className="comment-options">
-									<button onClick={e => this.handleEditComment(comment)}>
-										Edit comment
-									</button>
-									<br />
-									<button onClick={e => deleteComment(id)}>Delete</button>
-								</div>
-								{this.state.edit && this.state.id === id ? (
-									<form onSubmit={this.handleSubmit} autoComplete="off">
-										<label>
-											Body:
-											<textarea
-												style={{ width: 300, height: 100 }}
-												name="body"
-												type="text"
-												value={this.state.body}
-												onChange={this.handleChange}
-											/>
-										</label>
+				{isFetching
+					? ""
+					: commentList.map((comment, i) => {
+							const {
+								id,
+								parentId,
+								author,
+								body,
+								voteScore,
+								timestamp
+							} = comment;
+							return (
+								<div className="comments" key={i}>
+									<div className="comment-options">
+										<button onClick={e => this.handleEditComment(comment)}>
+											Edit comment
+										</button>
 										<br />
-										<input type="submit" value="Submit" />
-									</form>
-								) : (
-									<div>
-										<p>{body}</p>
+										<button onClick={e => deleteComment(id)}>Delete</button>
 									</div>
-								)}
-								<span>
-									<em>{author}</em> commented at{" "}
-									{moment(timestamp)
-										.format("MMM-DD-YYYY hh:mm A")
-										.toString()}
-								</span>
-								<br />
-								<div>
-									<TiArrowSortedUp
-										className="vote-icon"
-										onClick={e => {
-											const option = "upVote";
-											return updateVoteComment(id, option);
-										}}
-									/>
-									{voteScore}
-									<TiArrowSortedDown
-										className="vote-icon"
-										onClick={e => {
-											const option = "downVote";
-											return updateVoteComment(id, option);
-										}}
-									/>
+									{this.state.edit && this.state.id === id ? (
+										<form onSubmit={this.handleSubmit} autoComplete="off">
+											<label>
+												Body:
+												<textarea
+													style={{ width: 300, height: 100 }}
+													name="body"
+													type="text"
+													value={this.state.body}
+													onChange={this.handleChange}
+												/>
+											</label>
+											<br />
+											<input type="submit" value="Submit" />
+										</form>
+									) : (
+										<div>
+											<p>{body}</p>
+										</div>
+									)}
+									<span>
+										<em>{author}</em> commented at{" "}
+										{moment(timestamp)
+											.format("MMM-DD-YYYY hh:mm A")
+											.toString()}
+									</span>
+									<br />
+									<div>
+										<TiArrowSortedUp
+											className="vote-icon"
+											onClick={e => {
+												const option = "upVote";
+												return updateVoteComment(id, option);
+											}}
+										/>
+										{voteScore}
+										<TiArrowSortedDown
+											className="vote-icon"
+											onClick={e => {
+												const option = "downVote";
+												return updateVoteComment(id, option);
+											}}
+										/>
+									</div>
 								</div>
-							</div>
-						);
-					})}
+							);
+						})}
 			</div>
 		);
 	}

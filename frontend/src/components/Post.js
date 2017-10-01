@@ -10,8 +10,7 @@ import {
 	fetchComments,
 	updateVotePost,
 	editPost,
-	deletePost,
-	toggleVisibility
+	deletePost
 } from "../actions";
 
 class Post extends Component {
@@ -41,9 +40,17 @@ class Post extends Component {
 	};
 
 	showMoreDetails = id => {
-		const { fetchComments, toggleVisibility } = this.props;
+		const { fetchComments } = this.props;
+		this.setState({
+			id
+		})
 		fetchComments(id)
-		toggleVisibility(id)
+	}
+
+	showLessDetails = () => {
+		this.setState({
+			id: null
+		})
 	}
 
 	handleSubmit = e => {
@@ -65,8 +72,7 @@ class Post extends Component {
 		const {
 			postList,
 			updateVotePost,
-			deletePost,
-			toggleVisibility
+			deletePost
 		} = this.props;
 		return (
 			<div>
@@ -78,25 +84,22 @@ class Post extends Component {
 							title,
 							body,
 							voteScore,
-							timestamp,
-							isVisible
+							timestamp
 						} = post;
 						return (
 							<div className="posts" key={i}>
-								<button onClick={e => this.showMoreDetails(id)}>More</button>
-
-								{isVisible ? (
+								{id === this.state.id ? (
 									<div className="post-options">
-										<button onClick={e => this.handleEditPost(post)}>
-											Edit Post
-										</button>
+										<button onClick={e => this.showLessDetails()}>Less</button>
+										<br />
+										<button onClick={e => this.handleEditPost(post)}>Edit Post</button>
 										<br />
 										<button onClick={e => deletePost(id)}>Delete</button>
 									</div>
 								) : (
-									""
+									<button onClick={e => this.showMoreDetails(id)}>More</button>
 								)}
-								{this.state.edit && this.state.id === id ? (
+								{id === this.state.id && this.state.edit ? (
 									<form onSubmit={this.handleSubmit} autoComplete="off">
 										<label>
 											Title:
@@ -124,7 +127,7 @@ class Post extends Component {
 								) : (
 									<div>
 										<p className="post-title">{title}</p>
-										{isVisible ? (
+										{id === this.state.id ? (
 											<div>
 												<p>{body}</p>
 												<CommentsList />
@@ -178,8 +181,7 @@ const mapDispatchToProps = dispatch => ({
 	fetchComments: id => dispatch(fetchComments(id)),
 	updateVotePost: (id, option) => dispatch(updateVotePost(id, option)),
 	editPost: details => dispatch(editPost(details)),
-	deletePost: id => dispatch(deletePost(id)),
-	toggleVisibility: id => dispatch(toggleVisibility(id))
+	deletePost: id => dispatch(deletePost(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

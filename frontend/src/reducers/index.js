@@ -3,17 +3,19 @@ import { combineReducers } from "redux";
 import {
   SELECTED_CATEGORY,
   GET_CATEGORIES,
-  TOGGLE_VISIBILITY,
   GET_POSTS,
   ADD_POST,
   EDIT_POST,
   DELETE_POST,
   UPDATE_VOTE_POST,
   GET_COMMENTS,
+  GOT_COMMENTS,
   ADD_COMMENT,
   EDIT_COMMENT,
   DELETE_COMMENT,
-  UPDATE_VOTE_COMMENT
+  UPDATE_VOTE_COMMENT,
+  IS_FETCHING,
+  FETCHED
 } from "../actions";
 
 const categoriesState = {
@@ -58,10 +60,7 @@ const postData = (state = postDataState, action) => {
     case GET_POSTS:
       return {
         ...state,
-        posts: posts.map(post => {
-          post["isVisible"] = false;
-          return post;
-        }),
+        posts,
         isFetching: false
       };
 
@@ -90,7 +89,7 @@ const postData = (state = postDataState, action) => {
         posts: state.posts.map(
           post =>
             post.id === postDetails.id
-              ? { ...postDetails, isVisible: post.isVisible }
+              ? { ...postDetails}
               : post
         )
       };
@@ -103,19 +102,6 @@ const postData = (state = postDataState, action) => {
         )
       };
 
-    case TOGGLE_VISIBILITY:
-      return {
-        ...state,
-        posts: state.posts.map(post => {
-          if (post.id === action.id) {
-            post.isVisible = !post.isVisible;
-            return post;
-          } else {
-            return post;
-          }
-        })
-      };
-
     default:
       return state;
   }
@@ -124,7 +110,7 @@ const postData = (state = postDataState, action) => {
 // COMMENTS
 
 const commentDataState = {
-  isFetching: true,
+  isFetching: false,
   comments: {},
   commentDetails: {}
 };
@@ -133,6 +119,11 @@ const commentData = (state = commentDataState, action) => {
   const { comments, commentDetails, option } = action;
   switch (action.type) {
     case GET_COMMENTS:
+      return {
+        isFetching: true
+      };
+
+    case GOT_COMMENTS:
       return {
         ...state,
         comments,
@@ -181,6 +172,18 @@ const commentData = (state = commentDataState, action) => {
       return state;
   }
 };
+
+// const fetchingData = (state = false , action) => {
+//   console.log(action.type)
+//   switch (action.type) {
+//     case IS_FETCHING:
+//       return true
+//     case FETCHED:
+//       return false
+//     default:
+//       return state;
+//   }
+// }
 
 export default combineReducers({
   categoryData,

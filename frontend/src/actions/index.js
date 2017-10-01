@@ -3,7 +3,6 @@ import * as ReadableApi from "../utils/ReadableApi";
 export const SELECTED_CATEGORY = "SELECTED_CATEGORY";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 
-export const TOGGLE_VISIBILITY = "TOGGLE_VISIBILITY";
 export const GET_POSTS = "GET_POSTS";
 export const ADD_POST = "ADD_POST";
 export const EDIT_POST = "EDIT_POST";
@@ -11,11 +10,27 @@ export const DELETE_POST = "DELETE_POST";
 export const UPDATE_VOTE_POST = "UPDATE_VOTE_POST";
 
 export const GET_COMMENTS = "GET_COMMENTS";
+export const GOT_COMMENTS = "GOT_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const UPDATE_VOTE_COMMENT = "UPDATE_VOTE_COMMENT";
 
+// export const IS_FETCHING = "IS_FETCHING";
+// export const FETCHED = "FETCHED";
+
+// // FETCHING
+// const isFetching = () => dispatch => {
+// 	dispatch({
+// 		type: IS_FETCHING
+// 	})
+// }
+
+// const fetched = () => dispatch => {
+// 	dispatch({
+// 		type: FETCHED
+// 	})
+// }
 
 // CATEGORIES
 export const fetchCategories = () => dispatch => {
@@ -46,12 +61,6 @@ export const handleSelectedCategory = selectedCategory => {
 
 
 // POSTS
-export const toggleVisibility = id => {
-	return {
-		type: TOGGLE_VISIBILITY,
-		id
-	};
-};
 
 export const fetchPosts = () => dispatch => {
 	ReadableApi.getPosts().then(posts =>
@@ -103,9 +112,12 @@ export const deletePost = id => dispatch => {
 
 // COMMENTS
 export const fetchComments = id => dispatch => {
+	dispatch({
+		type: GET_COMMENTS
+	})
 	ReadableApi.getComments(id).then(comments =>
 		dispatch({
-			type: GET_COMMENTS,
+			type: GOT_COMMENTS,
 			comments
 		})
 	);
