@@ -115,11 +115,12 @@ const commentDataState = {
 };
 
 const commentData = (state = commentDataState, action) => {
-  const { comments, commentDetails, option } = action;
+  const { comments, parentId, commentDetails, option } = action;
   switch (action.type) {
     case GET_COMMENTS:
       return {
-        isFetching: true
+        isFetching: true,
+        parentId
       };
 
     case GOT_COMMENTS:

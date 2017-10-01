@@ -7,9 +7,7 @@ import { Redirect } from "react-router-dom";
 class CommentSubmitForm extends React.Component {
 	state = {
 		author: "",
-		body: "",
-		openSubmit: false,
-		submitted: false
+		body: ""
 	};
 
 	handleChange = e => {
@@ -21,32 +19,24 @@ class CommentSubmitForm extends React.Component {
 	};
 
 	handleSubmit = e => {
+		const { parentId, addComment } = this.props;
 		const details = {
 			...this.state,
+			parentId,
 			id: shortid.generate(),
 			timestamp: Date.now()
 		};
-		this.props.addComment(details);
 		this.setState({
-			submitted: true
+			author: "",
+			body: ""
 		});
+		addComment(details);
 		e.preventDefault();
 	};
 
-	openSubmitComment = comment => {
-		const { id, body } = comment;
-		this.setState({
-			id,
-			body,
-			openEdit: !this.state.openEdit
-		});
-	};
-
 	render() {
-		const { selectedCategory } = this.props;
-		return this.state.submitted ? (
-			<Redirect to={`/${selectedCategory}`} />
-		) : (
+		const { selectedCategory, parentId } = this.props;
+		return (
 			<div className="submit-comment">
 				<h3>Add a comment</h3>
 				<form onSubmit={this.handleSubmit} autoComplete="off">
@@ -82,10 +72,10 @@ class CommentSubmitForm extends React.Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = state => {
-	const { selectedCategory, postData } = state;
-	console.log(postData)
+	const { selectedCategory,  commentData } = state;
 	return {
-		...selectedCategory
+		...selectedCategory,
+		parentId: commentData.parentId
 	};
 };
 

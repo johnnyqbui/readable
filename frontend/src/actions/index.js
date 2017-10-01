@@ -113,7 +113,8 @@ export const deletePost = id => dispatch => {
 // COMMENTS
 export const fetchComments = id => dispatch => {
 	dispatch({
-		type: GET_COMMENTS
+		type: GET_COMMENTS,
+		parentId: id
 	})
 	ReadableApi.getComments(id).then(comments =>
 		dispatch({

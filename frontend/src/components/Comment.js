@@ -67,7 +67,6 @@ class Comment extends Component {
 					: commentList.map((comment, i) => {
 							const {
 								id,
-								parentId,
 								author,
 								body,
 								voteScore,
