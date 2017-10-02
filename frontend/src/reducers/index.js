@@ -15,8 +15,9 @@ import {
   EDIT_COMMENT,
   DELETE_COMMENT,
   UPDATE_VOTE_COMMENT,
-  IS_FETCHING,
-  FETCHED
+
+  SHOW_DETAILS,
+  HIDE_DETAILS
 } from "../actions";
 
 const categoriesState = {
@@ -173,19 +174,19 @@ const commentData = (state = commentDataState, action) => {
   }
 };
 
-// const fetchingData = (state = false , action) => {
-//   console.log(action.type)
-//   switch (action.type) {
-//     case IS_FETCHING:
-//       return true
-//     case FETCHED:
-//       return false
-//     default:
-//       return state;
-//   }
-// }
+const postVisibility = (state = false , action) => {
+  switch (action.type) {
+    case SHOW_DETAILS:
+      return true
+    case HIDE_DETAILS:
+      return false
+    default:
+      return state;
+  }
+}
 
 export default combineReducers({
+  postVisibility,
   categoryData,
   postData,
   commentData,

@@ -4,16 +4,21 @@ import { withRouter, Link } from "react-router-dom";
 import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
-import CommentsList from "./CommentsList";
+import CommentList from "./CommentList";
 
 import {
 	fetchComments,
 	updateVotePost,
 	editPost,
-	deletePost
+	deletePost,
+	showDetails,
+	hideDetails
 } from "../actions";
 
 class Post extends Component {
+	componentDidMount() {
+
+	}
 	state = {
 		id: null,
 		title: "",
@@ -55,31 +60,25 @@ class Post extends Component {
 	};
 
 	showMoreDetails = id => {
-		const { fetchComments } = this.props;
+		const { fetchComments, showDetails } = this.props;
 		this.setState({
 			id
 		})
 		fetchComments(id)
+		showDetails()
 	}
 
 	showLessDetails = () => {
-		this.setState({
-			id: null
-		})
+		const { hideDetails } = this.props;
+		hideDetails()
 	}
-
-	// pushToHistory = id => {
-	// 	const categoryParam = this.props.match.url;
-	// 	const locationPathname = this.props.location.pathname;
-	// 	console.log(this.props)
-	// 	this.props.history.push(`/${categoryParam}/${id}`)
-	// }
 
 	render() {
 		const {
 			postList,
 			updateVotePost,
-			deletePost
+			deletePost,
+			postVisibility
 		} = this.props;
 		const currentPath = this.props.match.url;
 		return (
@@ -96,9 +95,9 @@ class Post extends Component {
 						} = post;
 						return (
 							<div className="posts" key={i}>
-								{id === this.state.id ? (
+								{id === this.state.id && postVisibility ? (
 									<div className="post-options">
-										<button onClick={e => this.showLessDetails()}>Less</button>
+										<Link to={currentPath} onClick={e => this.showLessDetails()}>Less</Link>
 										<br />
 										<button onClick={e => this.handleEditPost(post)}>Edit Post</button>
 										<br />
@@ -137,10 +136,10 @@ class Post extends Component {
 								) : (
 									<div>
 										<p className="post-title">{title}</p>
-										{id === this.state.id ? (
+										{id === this.state.id && postVisibility ? (
 											<div>
 												<p>{body}</p>
-												<CommentsList />
+												<CommentList />
 											</div>
 										) : (
 											""
@@ -181,9 +180,10 @@ class Post extends Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = state => {
-	const { postData } = state;
+	const { postData, postVisibility } = state;
 	return {
-		postList: postData.posts
+		postList: postData.posts,
+		postVisibility
 	};
 };
 
@@ -191,7 +191,9 @@ const mapDispatchToProps = dispatch => ({
 	fetchComments: id => dispatch(fetchComments(id)),
 	updateVotePost: (id, option) => dispatch(updateVotePost(id, option)),
 	editPost: details => dispatch(editPost(details)),
-	deletePost: id => dispatch(deletePost(id))
+	deletePost: id => dispatch(deletePost(id)),
+	showDetails: () => dispatch(showDetails()),
+	hideDetails: () => dispatch(hideDetails())
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));

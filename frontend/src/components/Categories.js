@@ -1,19 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Post from "./Post";
 
 import {
 	fetchPosts,
 	fetchCategories,
 	fetchCategoryPosts,
-	handleSelectedCategory
+	handleSelectedCategory,
+	hideDetails
 } from "../actions";
 
 class Categories extends Component {
 	componentDidMount() {
-		const { fetchCategories } = this.props;
+		const { categories, fetchPosts, fetchCategoryPosts, fetchCategories, handleSelectedCategory } = this.props;
+		const urlCategoryParam = this.props.match.params.category;
 		fetchCategories();
+		handleSelectedCategory(urlCategoryParam)
+		if (urlCategoryParam !== "all") {
+			fetchCategoryPosts(urlCategoryParam);
+		}
 	}
 
 	handleClickCategory = (selectedCategory) => {
@@ -21,9 +27,11 @@ class Categories extends Component {
 			fetchPosts,
 			fetchCategories,
 			fetchCategoryPosts,
-			handleSelectedCategory
+			handleSelectedCategory,
+			hideDetails
 		} = this.props;
 		handleSelectedCategory(selectedCategory);
+		hideDetails()
 		selectedCategory === "all"
 			? fetchPosts()
 			: fetchCategoryPosts(selectedCategory);
@@ -71,7 +79,8 @@ const mapDispatchToProps = dispatch => ({
 	fetchPosts: () => dispatch(fetchPosts()),
 	fetchCategories: () => dispatch(fetchCategories()),
 	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category)),
-	handleSelectedCategory: category => dispatch(handleSelectedCategory(category))
+	handleSelectedCategory: category => dispatch(handleSelectedCategory(category)),
+	hideDetails: () => dispatch(hideDetails())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Categories));

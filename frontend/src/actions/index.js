@@ -16,21 +16,22 @@ export const EDIT_COMMENT = "EDIT_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const UPDATE_VOTE_COMMENT = "UPDATE_VOTE_COMMENT";
 
-// export const IS_FETCHING = "IS_FETCHING";
-// export const FETCHED = "FETCHED";
+export const SHOW_DETAILS = "SHOW_DETAILS";
+export const HIDE_DETAILS = "HIDE_DETAILS";
 
-// // FETCHING
-// const isFetching = () => dispatch => {
-// 	dispatch({
-// 		type: IS_FETCHING
-// 	})
-// }
+// FETCHING
+export const showDetails = () => ({
+	type: SHOW_DETAILS
+});
 
-// const fetched = () => dispatch => {
-// 	dispatch({
-// 		type: FETCHED
-// 	})
-// }
+export const hideDetails = () => ({
+	type: HIDE_DETAILS
+});
+
+export const handleSelectedCategory = selectedCategory => ({
+	type: SELECTED_CATEGORY,
+	selectedCategory
+});
 
 // CATEGORIES
 export const fetchCategories = () => dispatch => {
@@ -50,15 +51,6 @@ export const fetchCategoryPosts = category => dispatch => {
 		})
 	);
 };
-
-export const handleSelectedCategory = selectedCategory => {
-	return {
-		type: SELECTED_CATEGORY,
-		selectedCategory
-	};
-};
-
-
 
 // POSTS
 
@@ -108,14 +100,12 @@ export const deletePost = id => dispatch => {
 	);
 };
 
-
-
 // COMMENTS
 export const fetchComments = id => dispatch => {
 	dispatch({
 		type: GET_COMMENTS,
 		parentId: id
-	})
+	});
 	ReadableApi.getComments(id).then(comments =>
 		dispatch({
 			type: GOT_COMMENTS,

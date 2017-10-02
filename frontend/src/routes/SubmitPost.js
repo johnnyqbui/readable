@@ -9,7 +9,7 @@ class SubmitPost extends React.Component {
 		author: "",
 		title: "",
 		body: "",
-		category: "react",
+		category: this.props.selectedCategory,
 		submitted: false
 	};
 
@@ -78,7 +78,7 @@ class SubmitPost extends React.Component {
 						/>
 					</label>
 					<br />
-					{selectedCategory === "all" ? (
+					{selectedCategory === "all" || selectedCategory === "submit" ? (
 						<label>
 							Category:
 							<select
