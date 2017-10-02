@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import uuid from "uuid";
+import shortid from "shortid";
 import { fetchPosts, addPost } from "../actions";
 import { Redirect } from "react-router-dom";
 
@@ -26,7 +26,7 @@ class SubmitPost extends React.Component {
 	handleSubmit = e => {
 		const details = {
 			...this.state,
-			id: uuid(),
+			id: shortid.generate(),
 			timestamp: Date.now()
 		};
 		this.props.addPost(details);

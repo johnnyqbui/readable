@@ -8,7 +8,6 @@ import {
 	fetchCategoryPosts,
 	handleSelectedCategory
 } from "../actions";
-import SubmitPost from "../routes/SubmitPost";
 
 class Home extends Component {
 	componentDidMount() {
@@ -30,14 +29,10 @@ class Home extends Component {
 		const { postData } = this.props;
 		return (
 			<div className="main">
-				<Categories />
-				<Switch>
-					<Route path="/submit" component={SubmitPost} />
-					<Route
-						render={() =>
-							postData.isFetching ? <h2>Loading...</h2> : <PostsList />}
-					/>
-				</Switch>
+				<Route path="/:category?" component={Categories} />
+				<Route path="/:post" render={() =>
+						postData.isFetching ? <h2>Loading...</h2> : <PostsList />}
+				/>
 			</div>
 		);
 	}

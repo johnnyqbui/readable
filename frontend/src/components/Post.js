@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
@@ -39,20 +39,6 @@ class Post extends Component {
 		});
 	};
 
-	showMoreDetails = id => {
-		const { fetchComments } = this.props;
-		this.setState({
-			id
-		})
-		fetchComments(id)
-	}
-
-	showLessDetails = () => {
-		this.setState({
-			id: null
-		})
-	}
-
 	handleSubmit = e => {
 		const { id, title, body } = this.state;
 		const { editPost } = this.props;
@@ -68,12 +54,34 @@ class Post extends Component {
 		e.preventDefault();
 	};
 
+	showMoreDetails = id => {
+		const { fetchComments } = this.props;
+		this.setState({
+			id
+		})
+		fetchComments(id)
+	}
+
+	showLessDetails = () => {
+		this.setState({
+			id: null
+		})
+	}
+
+	// pushToHistory = id => {
+	// 	const categoryParam = this.props.match.url;
+	// 	const locationPathname = this.props.location.pathname;
+	// 	console.log(this.props)
+	// 	this.props.history.push(`/${categoryParam}/${id}`)
+	// }
+
 	render() {
 		const {
 			postList,
 			updateVotePost,
 			deletePost
 		} = this.props;
+		const currentPath = this.props.match.url;
 		return (
 			<div>
 				{postList &&
@@ -97,7 +105,9 @@ class Post extends Component {
 										<button onClick={e => deletePost(id)}>Delete</button>
 									</div>
 								) : (
-									<button onClick={e => this.showMoreDetails(id)}>More</button>
+									<Link to={`${currentPath}/${id}`} onClick={e =>
+										this.showMoreDetails(id)
+									}>More</Link>
 								)}
 								{id === this.state.id && this.state.edit ? (
 									<form onSubmit={this.handleSubmit} autoComplete="off">
@@ -184,4 +194,4 @@ const mapDispatchToProps = dispatch => ({
 	deletePost: id => dispatch(deletePost(id))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));

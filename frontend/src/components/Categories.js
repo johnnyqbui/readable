@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import Post from "./Post";
+
 import {
 	fetchPosts,
 	fetchCategories,
@@ -14,7 +16,7 @@ class Categories extends Component {
 		fetchCategories();
 	}
 
-	handleClickCategory(selectedCategory) {
+	handleClickCategory = (selectedCategory) => {
 		const {
 			fetchPosts,
 			fetchCategories,
@@ -36,18 +38,18 @@ class Categories extends Component {
 					{categories.length &&
 						categories.map((category, i) => {
 							return (
-								<Link key={i} to={`${category.name}`}>
-									<li
-										className={
-											category.name === selectedCategory ? "isActive" : ""
-										}
-										onClick={e => {
-											this.handleClickCategory(category.name);
-										}}
-									>
-										{category.name}
-									</li>
-								</Link>
+							<Link to={`/${category.name}`} key={i}>
+								<li
+									className={
+										category.name === selectedCategory ? "isActive" : ""
+									}
+									onClick={e => {
+										this.handleClickCategory(category.name);
+									}}
+								>
+									{category.name}
+								</li>
+							</Link>
 							);
 						})}
 				</ul>

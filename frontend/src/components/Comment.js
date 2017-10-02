@@ -62,8 +62,9 @@ class Comment extends Component {
 		} = this.props;
 		return (
 			<div>
+				<CommentSubmitForm />
 				{isFetching
-					? ""
+					? "Loading..."
 					: commentList.map((comment, i) => {
 							const {
 								id,
@@ -75,7 +76,9 @@ class Comment extends Component {
 							return (
 								<div className="comments" key={i}>
 									<div className="comment-options">
-										<button onClick={e => this.openEditComment(comment)}>
+										<button onClick={e => {
+											this.openEditComment(comment)
+										}}>
 											Edit comment
 										</button>
 										<br />
@@ -128,7 +131,6 @@ class Comment extends Component {
 								</div>
 							);
 						})}
-					<CommentSubmitForm />
 			</div>
 		);
 	}
