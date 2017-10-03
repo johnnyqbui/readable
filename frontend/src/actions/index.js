@@ -1,9 +1,9 @@
 import * as ReadableApi from "../utils/ReadableApi";
 
-export const SELECTED_CATEGORY = "SELECTED_CATEGORY";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 
 export const GET_POSTS = "GET_POSTS";
+export const GOT_POSTS = "GOT_POSTS";
 export const ADD_POST = "ADD_POST";
 export const EDIT_POST = "EDIT_POST";
 export const DELETE_POST = "DELETE_POST";
@@ -28,11 +28,6 @@ export const hideDetails = () => ({
 	type: HIDE_DETAILS
 });
 
-export const handleSelectedCategory = selectedCategory => ({
-	type: SELECTED_CATEGORY,
-	selectedCategory
-});
-
 // CATEGORIES
 export const fetchCategories = () => dispatch => {
 	ReadableApi.getCats().then(categories =>
@@ -46,7 +41,7 @@ export const fetchCategories = () => dispatch => {
 export const fetchCategoryPosts = category => dispatch => {
 	ReadableApi.getPosts(category).then(posts =>
 		dispatch({
-			type: GET_POSTS,
+			type: GOT_POSTS,
 			posts
 		})
 	);
@@ -55,9 +50,12 @@ export const fetchCategoryPosts = category => dispatch => {
 // POSTS
 
 export const fetchPosts = () => dispatch => {
+	dispatch({
+		type: GET_POSTS
+	});
 	ReadableApi.getPosts().then(posts =>
 		dispatch({
-			type: GET_POSTS,
+			type: GOT_POSTS,
 			posts
 		})
 	);

@@ -7,7 +7,7 @@ const headers = {
 };
 
 export const getPosts = category =>
-	fetch(`${baseApi}${category ? "/" + category : ""}/posts`, {
+	fetch(`${baseApi}${category && category !== "all" ? "/" + category : ""}/posts`, {
 		...headers
 	}).then(res => res.json());
 

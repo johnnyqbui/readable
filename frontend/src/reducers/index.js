@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
 import {
-  SELECTED_CATEGORY,
   GET_CATEGORIES,
   GET_POSTS,
+  GOT_POSTS,
   ADD_POST,
   EDIT_POST,
   DELETE_POST,
@@ -37,19 +37,6 @@ const categoryData = (state = categoriesState, action) => {
   }
 };
 
-const selectedCategory = (state = { selectedCategory: "all" }, action) => {
-  const { selectedCategory } = action;
-  switch (action.type) {
-    case SELECTED_CATEGORY:
-      return {
-        ...state,
-        selectedCategory
-      };
-    default:
-      return state;
-  }
-};
-
 const postDataState = {
   isFetching: true,
   posts: {},
@@ -60,6 +47,11 @@ const postData = (state = postDataState, action) => {
   const { posts, postDetails, option } = action;
   switch (action.type) {
     case GET_POSTS:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case GOT_POSTS:
       return {
         ...state,
         posts,
@@ -189,6 +181,5 @@ export default combineReducers({
   postVisibility,
   categoryData,
   postData,
-  commentData,
-  selectedCategory
+  commentData
 });
