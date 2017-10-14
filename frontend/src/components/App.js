@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div className="App">
       <Switch>
-        <Route path="/" component={Home}/>
+        <Route path="/:category?/:post?" component={Home}/>
         <Route render={() => <h1>Page not found</h1>} />
       </Switch>
     </div>

@@ -9,6 +9,7 @@ class PostList extends Component {
 	componentDidMount() {
 		const { fetchPosts } = this.props;
 		const urlCategoryParam = this.props.match.params.category;
+		console.log(this.props.match)
 		if (urlCategoryParam === "all") {
 			fetchPosts();
 		}

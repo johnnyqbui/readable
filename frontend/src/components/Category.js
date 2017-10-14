@@ -19,7 +19,7 @@ const Category = props => {
 		<div className='categoriesList'>
 			{categories.map(({ name }, i) => (
 				<Link
-					to={`/${name}`}
+					to={`/${name}/`}
 					key={i}
 					onClick={e => handleClickCategory(name)}
 					className={name === urlCategoryParam ? "isActive" : ""}

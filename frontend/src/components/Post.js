@@ -23,6 +23,13 @@ class Post extends Component {
 		edit: false
 	};
 
+	componentDidMount() {
+		const urlPostParam = this.props.match.params.post
+		if (urlPostParam) {
+			this.showMoreDetails(urlPostParam)
+		}
+	}
+
 	handleChange = e => {
 		const name = e.target.name;
 		const value = e.target.value;
@@ -75,7 +82,7 @@ class Post extends Component {
 
 	render() {
 		const { postList, updateVotePost, deletePost, postVisibility } = this.props;
-		const currentPath = this.props.match.url;
+		const currentCategory = this.props.match.params.category;
 		return (
 			<div>
 				{postList.map(({ id, author, title, body, voteScore, timestamp }) => {
@@ -83,7 +90,7 @@ class Post extends Component {
 						<div className="posts" key={id}>
 							{id === this.state.id && postVisibility ? (
 								<div className="post-options">
-									<Link to={currentPath} onClick={e => this.showLessDetails()}>
+									<Link to={`/${currentCategory}/`} onClick={e => this.showLessDetails()}>
 										Less
 									</Link>
 									<br />
@@ -95,9 +102,8 @@ class Post extends Component {
 								</div>
 							) : (
 								<Link
-									to={`${currentPath}/${id}`}
-									onClick={e => this.showMoreDetails(id)}
-								>
+									to={`${id}`}
+									onClick={e => this.showMoreDetails(id)}>
 									More
 								</Link>
 							)}

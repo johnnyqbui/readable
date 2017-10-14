@@ -22,13 +22,13 @@ ul li {
   padding: 0;
   margin: 30px;
   position: relative;
+  width: calc(100% - 250px);
   left: 200px;
 }
 
 .posts-list .posts {
   padding: 10px;
-  border: 2px solid #00ffa9;
-  background: #9bc1ff;
+  background: #efefef;
   margin: 10px 0;
   transition: .2s;
 }
@@ -52,6 +52,7 @@ ul li {
   width: 200px;
   height: 100vh;
   position: fixed;
+  box-shadow: 5px 0px 15px #999;
 }
 
 .categories h2 {
@@ -59,11 +60,10 @@ ul li {
   text-align: center;
   margin: 0;
   padding: 20px 0;
-  background: #555;
+  background: #8e8e8e;
   width: 100%;
-  border-bottom: 3px solid #16ffc4;
-/*  box-shadow: 10px 0px 10px #555;
-*/}
+  border-bottom: 3px solid #00ffa9;
+}
 
 .categoriesList {
   display: flex;

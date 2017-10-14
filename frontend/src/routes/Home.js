@@ -7,10 +7,10 @@ import SubmitPost from "../routes/SubmitPost";
 const Home = () => {
 	return (
 		<div className="main">
-			<Route path="/:category?" component={CategoryList} />
+			<Route component={CategoryList} />
 			<Switch>
 				<Route path="/submit" component={SubmitPost} />
-				<Route path="/:post?" component={PostList} />
+				<Route component={PostList} />
 			</Switch>
 		</div>
 	);
