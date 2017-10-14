@@ -81,7 +81,6 @@ class Comment extends Component {
 										}}>
 											Edit comment
 										</button>
-										<br />
 										<button onClick={e => deleteComment(id)}>Delete</button>
 									</div>
 									{this.state.openEdit && this.state.id === id ? (
@@ -96,7 +95,7 @@ class Comment extends Component {
 													onChange={this.handleChange}
 												/>
 											</label>
-											<br />
+											<br/>
 											<input type="submit" value="Submit" />
 										</form>
 									) : (
@@ -110,7 +109,6 @@ class Comment extends Component {
 											.format("MMM-DD-YYYY hh:mm A")
 											.toString()}
 									</span>
-									<br />
 									<div>
 										<TiArrowSortedUp
 											className="vote-icon"

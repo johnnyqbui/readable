@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Category from "./Category";
 
-import { fetchCategories, fetchCategoryPosts } from "../actions";
+import { fetchCategories, fetchCategoryPosts, selectCategory } from "../actions";
 
 class CategoryList extends Component {
 	componentDidMount() {
@@ -11,6 +11,7 @@ class CategoryList extends Component {
 		const urlCategoryParam = this.props.match.params.category;
 		fetchCategories();
 		fetchCategoryPosts(urlCategoryParam);
+		selectCategory(urlCategoryParam)
 	}
 	render() {
 		return (
@@ -24,7 +25,8 @@ class CategoryList extends Component {
 
 const mapDispatchToProps = dispatch => ({
 	fetchCategories: () => dispatch(fetchCategories()),
-	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category))
+	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category)),
+	selectCategory: category => dispatch(selectCategory(category))
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(CategoryList));

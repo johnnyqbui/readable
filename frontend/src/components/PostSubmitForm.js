@@ -4,7 +4,7 @@ import shortid from "shortid";
 import { fetchPosts, addPost } from "../actions";
 import { Redirect } from "react-router-dom";
 
-class SubmitPost extends React.Component {
+class PostSubmitForm extends React.Component {
 	state = {
 		author: "",
 		title: "",
@@ -38,36 +38,36 @@ class SubmitPost extends React.Component {
 
 	render() {
 		const { categories, selectedCategory } = this.props;
+		console.log(selectedCategory)
 		return this.state.submitted ? (
-			<Redirect to={`/${selectedCategory}`} />
+			<Redirect to={`/${selectedCategory}/`} />
 		) : (
 			<div className="submit-post">
 				<h3>Submit a Post</h3>
 				<form onSubmit={this.handleSubmit} autoComplete="off">
 					<label>
-						Author:
 						<input
 							required
 							name="author"
 							type="text"
 							value={this.state.author}
 							onChange={this.handleChange}
+							placeholder="Author"
 						/>
 					</label>
 					<br />
 					<label>
-						Title:
 						<input
 							required
 							name="title"
 							type="text"
 							value={this.state.title}
 							onChange={this.handleChange}
+							placeholder="Title"
 						/>
 					</label>
 					<br />
 					<label>
-						Body:
 						<textarea
 							required
 							name="body"
@@ -75,6 +75,7 @@ class SubmitPost extends React.Component {
 							style={{ width: 300, height: 100 }}
 							value={this.state.body}
 							onChange={this.handleChange}
+							placeholder="Body"
 						/>
 					</label>
 					<br />
@@ -104,7 +105,6 @@ class SubmitPost extends React.Component {
 					) : (
 						<label>Category: {selectedCategory}</label>
 					)}
-
 					<br />
 					<input type="submit" value="Submit" />
 				</form>
@@ -114,11 +114,11 @@ class SubmitPost extends React.Component {
 }
 
 // Passing state as props, from reducers
-const mapStateToProps = state => {
-	const { categoryData, selectedCategory } = state;
+const mapStateToProps = ({ categoryData }) => {
+	const { categories, selectedCategory } = categoryData
 	return {
-		categories: categoryData.categories,
-		...selectedCategory
+		categories: categories,
+		selectedCategory
 	};
 };
 
@@ -127,4 +127,7 @@ const mapDispatchToProps = dispatch => ({
 	fetchPosts: () => dispatch(fetchPosts())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubmitPost);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps)
+(PostSubmitForm);

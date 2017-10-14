@@ -1,18 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { fetchCategoryPosts, hideDetails } from "../actions";
+import { fetchCategoryPosts, hideDetails, selectCategory } from "../actions";
 
 const Category = props => {
 	const { categories, onClickCategory } = props;
 	const urlCategoryParam = props.match.params.category;
 
 	const handleClickCategory = selectedCategory => {
-		const { fetchCategoryPosts, hideDetails } = props;
+		const { fetchCategoryPosts, hideDetails, selectCategory } = props;
 		hideDetails();
 		selectedCategory === "all"
 			? fetchCategoryPosts()
 			: fetchCategoryPosts(selectedCategory);
+		selectCategory(selectedCategory)
+		console.log(selectedCategory)
 	};
 
 	return (
@@ -41,7 +43,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
 	hideDetails: () => dispatch(hideDetails()),
-	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category))
+	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category)),
+	selectCategory: category => dispatch(selectCategory(category))
 });
 
 export default withRouter(

@@ -41,18 +41,17 @@ class CommentSubmitForm extends React.Component {
 				<h3>Add a comment</h3>
 				<form onSubmit={this.handleSubmit} autoComplete="off">
 					<label>
-						Author:
 						<input
 							required
 							name="author"
 							type="text"
 							value={this.state.author}
 							onChange={this.handleChange}
+							placeholder="Author"
 						/>
 					</label>
 					<br />
 					<label>
-						Body:
 						<textarea
 							required
 							name="body"
@@ -60,6 +59,7 @@ class CommentSubmitForm extends React.Component {
 							style={{ width: 300, height: 100 }}
 							value={this.state.body}
 							onChange={this.handleChange}
+							placeholder="Body"
 						/>
 					</label>
 					<br />

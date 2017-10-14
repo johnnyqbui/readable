@@ -1,6 +1,7 @@
 import * as ReadableApi from "../utils/ReadableApi";
 
 export const GET_CATEGORIES = "GET_CATEGORIES";
+export const SELECT_CATEGORY = "SELECT_CATEGORY";
 
 export const GET_POSTS = "GET_POSTS";
 export const GOT_POSTS = "GOT_POSTS";
@@ -42,9 +43,16 @@ export const fetchCategoryPosts = category => dispatch => {
 	ReadableApi.getPosts(category).then(posts =>
 		dispatch({
 			type: GOT_POSTS,
-			posts
+			posts,
 		})
 	);
+};
+
+export const selectCategory = category => {
+		return {
+			type: SELECT_CATEGORY,
+			category,
+		}
 };
 
 // POSTS

@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 
 import {
   GET_CATEGORIES,
+  SELECT_CATEGORY,
   GET_POSTS,
   GOT_POSTS,
   ADD_POST,
@@ -21,17 +22,24 @@ import {
 } from "../actions";
 
 const categoriesState = {
-  categories: []
+  categories: [],
+  selectedCategory: ''
 };
 
 const categoryData = (state = categoriesState, action) => {
-  const { categories } = action;
+  const { categories, category } = action;
+  console.log(category)
   switch (action.type) {
     case GET_CATEGORIES:
       return {
         ...state,
         ...categories
       };
+    case SELECT_CATEGORY :
+      return {
+        ...state,
+        selectedCategory: category
+      }
     default:
       return state;
   }

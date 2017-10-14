@@ -9,7 +9,6 @@ class PostList extends Component {
 	componentDidMount() {
 		const { fetchPosts } = this.props;
 		const urlCategoryParam = this.props.match.params.category;
-		console.log(this.props.match)
 		if (urlCategoryParam === "all") {
 			fetchPosts();
 		}
@@ -19,8 +18,10 @@ class PostList extends Component {
 		const { postData, isFetching } = this.props;
 		return (
 			<div className="posts-list">
-				<h2 className="posts-header">Posts</h2>
-				<Link to="/submit">Submit New Post</Link>
+				<div className="posts-header">
+					<h2>Posts</h2>
+					<Link className='submitBtn' to="/submit">Submit New Post</Link>
+				</div>
 				{isFetching ? <h2>Loading...</h2> : <Post /> }
 			</div>
 		);

@@ -1,3 +1,8 @@
+body {
+  background: #000;
+  height: 100%;
+  color: #fff;
+}
 
 ul li {
   list-style-type: none;
@@ -11,11 +16,80 @@ ul li {
 .submit-post {
   width: 100%;
   margin: 10px 30px;
+  position: relative;
+  width: calc(100% - 250px);
+  left: 200px;
+}
+
+.posts-header {
+  margin: 1em 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .posts-header h2 {
-  text-align: center;
-  margin: 1em 0 2em 0;
+  color: #fff;
+}
+
+.submitBtn {
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid #0004ff;
+  padding: 15px;
+  margin: 10px;
+  transition: .3s;
+}
+.submitBtn:hover {
+  transition: .3s;
+}
+
+.post-options {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.posts a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  margin: 20px;
+  height: 40px;
+  width: 160px;
+  background: rgba(0,0,0,0);
+  color: #fff;
+  border: 1px solid #0004ff;
+  cursor: pointer;
+}
+
+button {
+  margin: 20px;
+  height: 40px;
+  width: 160px;
+  background: rgba(0,0,0,0);
+  color: #fff;
+  border: 1px solid #0004ff;
+  cursor: pointer;
+}
+
+form input[type='button'] {
+  margin: 20px;
+  height: 40px;
+  width: 160px;
+  background: rgba(0,0,0,0);
+  color: #fff;
+  border: 1px solid #0004ff;
+  cursor: pointer;
+}
+
+form input[type='submit'] {
+  margin: 20px;
+  height: 40px;
+  width: 160px;
+  background: rgba(0,0,0,0);
+  color: #fff;
+  border: 1px solid #0004ff;
+  cursor: pointer;
 }
 
 .posts-list {
@@ -28,9 +102,8 @@ ul li {
 
 .posts-list .posts {
   padding: 10px;
-  background: #efefef;
   margin: 10px 0;
-  transition: .2s;
+  border-top: 1px solid #0004ff;
 }
 
 .posts-list .posts span {
@@ -41,18 +114,19 @@ ul li {
 .post-title {
   font-size: 1em;
   font-weight: bold;
+  color: '#fff';
 }
 
 .vote-icon {
   font-size: 30px;
+  cursor: pointer;
 }
 
 .categories {
-  background: #232323;
   width: 200px;
   height: 100vh;
   position: fixed;
-  box-shadow: 5px 0px 15px #999;
+  border-right: 2px solid #00ffa9;
 }
 
 .categories h2 {
@@ -60,9 +134,8 @@ ul li {
   text-align: center;
   margin: 0;
   padding: 20px 0;
-  background: #8e8e8e;
+  background: #00ffa9;
   width: 100%;
-  border-bottom: 3px solid #00ffa9;
 }
 
 .categoriesList {
@@ -103,7 +176,7 @@ ul li {
 .comments-list .comments {
   padding: 10px;
   cursor: pointer;
-  border: 2px solid #00ffa9;
+  border: 1px solid #0004ff;
   margin: 10px 0;
   transition: .2s;
 }

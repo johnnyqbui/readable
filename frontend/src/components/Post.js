@@ -93,11 +93,9 @@ class Post extends Component {
 									<Link to={`/${currentCategory}/`} onClick={e => this.showLessDetails()}>
 										Less
 									</Link>
-									<br />
 									<button onClick={e => this.handleEditPost(id, title, body)}>
 										Edit Post
 									</button>
-									<br />
 									<button onClick={e => deletePost(id)}>Delete</button>
 								</div>
 							) : (
