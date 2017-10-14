@@ -128,14 +128,20 @@ form select {
 }
 
 .post-title {
-  font-size: 1em;
-  font-weight: bold;
+  font-size: 1.2em;
+  padding: 10px;
+  border-left: 5px solid #0004ff;
+}
+
+.post-details {
+  margin-left: 20px;
 }
 
 .post-body {
   background: rgba(100,100,100,.2);
   padding: 50px;
   border-left: 5px solid #353535;
+  margin-bottom: 20px;
 }
 
 .vote-icon {
@@ -192,6 +198,7 @@ form select {
 .comments-list {
   padding: 0;
   margin: 30px;
+  border-top: 1px solid #ff0072;
 }
 
 .comments-list form input[type='button'] {

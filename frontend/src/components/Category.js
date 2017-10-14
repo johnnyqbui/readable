@@ -1,51 +1,30 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
-import { fetchCategoryPosts, hideDetails, selectCategory } from "../actions";
+import { withRouter } from "react-router-dom";
+import CategoryList from "./CategoryList";
 
-const Category = props => {
-	const { categories, onClickCategory } = props;
-	const urlCategoryParam = props.match.params.category;
+import { fetchCategories, fetchCategoryPosts } from "../actions";
 
-	const handleClickCategory = selectedCategory => {
-		const { fetchCategoryPosts, hideDetails, selectCategory } = props;
-		hideDetails();
-		selectedCategory === "all"
-			? fetchCategoryPosts()
-			: fetchCategoryPosts(selectedCategory);
-		selectCategory(selectedCategory)
-	};
-
-	return (
-		<div className='categoriesList'>
-			{categories.map(({ name }, i) => (
-				<Link
-					to={`/${name}/`}
-					key={i}
-					onClick={e => handleClickCategory(name)}
-					className={name === urlCategoryParam ? "isActive" : ""}
-				>
-					{name}
-				</Link>
-			))}
-		</div>
-	);
-};
-
-// Passing state as props, from reducers
-const mapStateToProps = state => {
-	const { categoryData } = state;
-	return {
-		categories: categoryData.categories
-	};
-};
+class Category extends Component {
+	componentDidMount() {
+		const { fetchCategoryPosts, fetchCategories } = this.props;
+		const urlCategoryParam = this.props.match.params.category;
+		fetchCategories();
+		fetchCategoryPosts(urlCategoryParam);
+	}
+	render() {
+		return (
+			<div className="categories">
+				<h2>Categories</h2>
+				<CategoryList />
+			</div>
+		);
+	}
+}
 
 const mapDispatchToProps = dispatch => ({
-	hideDetails: () => dispatch(hideDetails()),
+	fetchCategories: () => dispatch(fetchCategories()),
 	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category)),
-	selectCategory: category => dispatch(selectCategory(category))
 });
 
-export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(Category)
-);
+export default withRouter(connect(null, mapDispatchToProps)(Category));

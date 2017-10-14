@@ -9,7 +9,7 @@ class PostSubmitForm extends React.Component {
 		author: "",
 		title: "",
 		body: "",
-		category: this.props.selectedCategory,
+		category: "react",
 		submitted: false
 	};
 
@@ -38,8 +38,9 @@ class PostSubmitForm extends React.Component {
 
 	render() {
 		const { categories, selectedCategory } = this.props;
+		const { category } = this.state;
 		return this.state.submitted ? (
-			<Redirect to={`/${selectedCategory}/`} />
+			<Redirect to={`/${category}`} />
 		) : (
 			<div className="submit-post">
 				<h3>Submit a Post</h3>
@@ -84,26 +85,22 @@ class PostSubmitForm extends React.Component {
 							Category:
 							<select
 								name="category"
-								value={this.state.category}
+								value={category}
 								onChange={this.handleChange}
 							>
-								{categories.map(
-									(category, i) =>
-										category.name === "all" ? (
-											""
-										) : (
-											<option
-												key={i}
-												value={category.name}
-											>
-												{category.name}
-											</option>
-										)
+								{categories.map((category, i) =>
+									category.name === "all"
+									? ''
+									: <option
+											key={i}
+											value={category.name}>
+											{category.name}
+										</option>
 								)}
 							</select>
 						</label>
 					) : (
-						<label>Category: {selectedCategory}</label>
+						<label>Category: {category}</label>
 					)}
 					<br />
 					<input type="submit" value="Submit" />
@@ -127,7 +124,4 @@ const mapDispatchToProps = dispatch => ({
 	fetchPosts: () => dispatch(fetchPosts())
 });
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps)
-(PostSubmitForm);
+export default connect(mapStateToProps,mapDispatchToProps)(PostSubmitForm)

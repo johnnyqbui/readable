@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import shortid from "shortid";
 import { addComment } from "../actions";
-import { Redirect } from "react-router-dom";
 
 class CommentSubmitForm extends React.Component {
 	state = {
@@ -35,7 +34,6 @@ class CommentSubmitForm extends React.Component {
 	};
 
 	render() {
-		const { selectedCategory, parentId } = this.props;
 		return (
 			<div className="comment-submit">
 				<h3>Add a comment</h3>
