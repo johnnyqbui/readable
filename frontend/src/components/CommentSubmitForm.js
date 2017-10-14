@@ -37,7 +37,7 @@ class CommentSubmitForm extends React.Component {
 	render() {
 		const { selectedCategory, parentId } = this.props;
 		return (
-			<div className="submit-comment">
+			<div className="comment-submit">
 				<h3>Add a comment</h3>
 				<form onSubmit={this.handleSubmit} autoComplete="off">
 					<label>
@@ -56,7 +56,6 @@ class CommentSubmitForm extends React.Component {
 							required
 							name="body"
 							type="text"
-							style={{ width: 300, height: 100 }}
 							value={this.state.body}
 							onChange={this.handleChange}
 							placeholder="Body"

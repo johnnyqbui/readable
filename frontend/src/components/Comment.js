@@ -76,9 +76,7 @@ class Comment extends Component {
 							return (
 								<div className="comments" key={i}>
 									<div className="comment-options">
-										<button onClick={e => {
-											this.openEditComment(comment)
-										}}>
+										<button onClick={e => {this.openEditComment(comment)}}>
 											Edit comment
 										</button>
 										<button onClick={e => deleteComment(id)}>Delete</button>
@@ -86,7 +84,6 @@ class Comment extends Component {
 									{this.state.openEdit && this.state.id === id ? (
 										<form onSubmit={this.handleSubmit} autoComplete="off">
 											<label>
-												Body:
 												<textarea
 													style={{ width: 300, height: 100 }}
 													name="body"
@@ -128,7 +125,8 @@ class Comment extends Component {
 									</div>
 								</div>
 							);
-						})}
+						})
+					}
 			</div>
 		);
 	}

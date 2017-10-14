@@ -38,7 +38,6 @@ class PostSubmitForm extends React.Component {
 
 	render() {
 		const { categories, selectedCategory } = this.props;
-		console.log(selectedCategory)
 		return this.state.submitted ? (
 			<Redirect to={`/${selectedCategory}/`} />
 		) : (
@@ -72,14 +71,15 @@ class PostSubmitForm extends React.Component {
 							required
 							name="body"
 							type="text"
-							style={{ width: 300, height: 100 }}
 							value={this.state.body}
 							onChange={this.handleChange}
 							placeholder="Body"
 						/>
 					</label>
 					<br />
-					{selectedCategory === "all" || selectedCategory === "submit" ? (
+					{selectedCategory === "all"
+					|| selectedCategory === "submit"
+					|| selectedCategory === '' ? (
 						<label>
 							Category:
 							<select

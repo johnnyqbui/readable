@@ -99,11 +99,13 @@ class Post extends Component {
 									<button onClick={e => deletePost(id)}>Delete</button>
 								</div>
 							) : (
+							<div className="post-options">
 								<Link
 									to={`${id}`}
 									onClick={e => this.showMoreDetails(id)}>
 									More
 								</Link>
+							</div>
 							)}
 							{id === this.state.id && this.state.edit ? (
 								<PostEditForm
@@ -117,7 +119,7 @@ class Post extends Component {
 									<p className="post-title">{title}</p>
 									{id === this.state.id && postVisibility ? (
 										<div>
-											<p>{body}</p>
+											<div className='post-body'>{body}</div>
 											<CommentList />
 										</div>
 									) : (

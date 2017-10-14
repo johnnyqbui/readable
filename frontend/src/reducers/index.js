@@ -28,14 +28,13 @@ const categoriesState = {
 
 const categoryData = (state = categoriesState, action) => {
   const { categories, category } = action;
-  console.log(category)
   switch (action.type) {
     case GET_CATEGORIES:
       return {
         ...state,
         ...categories
       };
-    case SELECT_CATEGORY :
+    case SELECT_CATEGORY:
       return {
         ...state,
         selectedCategory: category

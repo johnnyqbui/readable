@@ -53,8 +53,8 @@ ul li {
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  margin: 20px;
-  height: 40px;
+  margin: 10px 10px 10px 0;
+  height: 38px;
   width: 160px;
   background: rgba(0,0,0,0);
   color: #fff;
@@ -63,7 +63,7 @@ ul li {
 }
 
 button {
-  margin: 20px;
+  margin: 10px 10px 10px 0;
   height: 40px;
   width: 160px;
   background: rgba(0,0,0,0);
@@ -73,7 +73,7 @@ button {
 }
 
 form input[type='button'] {
-  margin: 20px;
+  margin: 10px 10px 10px 0;
   height: 40px;
   width: 160px;
   background: rgba(0,0,0,0);
@@ -83,13 +83,29 @@ form input[type='button'] {
 }
 
 form input[type='submit'] {
-  margin: 20px;
+  margin: 10px 10px 10px 0;
   height: 40px;
   width: 160px;
   background: rgba(0,0,0,0);
   color: #fff;
   border: 1px solid #0004ff;
   cursor: pointer;
+}
+form input[type='text'] {
+  width: 98%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+form textarea {
+  width: 98%;
+  height: 100px;
+  padding: 10px;
+}
+
+form select {
+  height: 28px;
+  margin: 10px;
+  padding: 5px;
 }
 
 .posts-list {
@@ -114,7 +130,12 @@ form input[type='submit'] {
 .post-title {
   font-size: 1em;
   font-weight: bold;
-  color: '#fff';
+}
+
+.post-body {
+  background: rgba(100,100,100,.2);
+  padding: 50px;
+  border-left: 5px solid #353535;
 }
 
 .vote-icon {
@@ -173,10 +194,38 @@ form input[type='submit'] {
   margin: 30px;
 }
 
+.comments-list form input[type='button'] {
+  margin: 10px 10px 10px 0;
+  height: 40px;
+  width: 160px;
+  background: rgba(0,0,0,0);
+  color: #fff;
+  border: 1px solid #ff0072;
+  cursor: pointer;
+}
+
+.comments-list form input[type='submit'] {
+  margin: 10px 10px 10px 0;
+  height: 40px;
+  width: 160px;
+  background: rgba(0,0,0,0);
+  color: #fff;
+  border: 1px solid #ff0072;
+  cursor: pointer;
+}
+
+.comments-list button {
+  margin: 10px 10px 10px 0;
+  height: 40px;
+  width: 160px;
+  background: rgba(0,0,0,0);
+  color: #fff;
+  border: 1px solid #ff0072;
+  cursor: pointer;
+}
+
 .comments-list .comments {
   padding: 10px;
-  cursor: pointer;
-  border: 1px solid #0004ff;
   margin: 10px 0;
   transition: .2s;
 }
@@ -189,5 +238,13 @@ form input[type='submit'] {
 .comment-title {
   font-size: 1em;
   font-weight: bold;
+}
+
+.comment-submit {
+  margin: 50px 0;
+}
+
+.comment-submit input[type='submit'] {
+  float: right;
 }
 

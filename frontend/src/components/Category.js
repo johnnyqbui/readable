@@ -14,7 +14,6 @@ const Category = props => {
 			? fetchCategoryPosts()
 			: fetchCategoryPosts(selectedCategory);
 		selectCategory(selectedCategory)
-		console.log(selectedCategory)
 	};
 
 	return (
