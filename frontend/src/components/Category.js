@@ -16,7 +16,7 @@ const Category = props => {
 	};
 
 	return (
-		<div>
+		<div className='categoriesList'>
 			{categories.map(({ name }, i) => (
 				<Link
 					to={`/${name}`}
