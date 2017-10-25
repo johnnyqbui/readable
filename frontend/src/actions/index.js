@@ -11,7 +11,6 @@ export const DELETE_POST = "DELETE_POST";
 export const UPDATE_VOTE_POST = "UPDATE_VOTE_POST";
 
 export const GET_COMMENTS = "GET_COMMENTS";
-export const GOT_COMMENTS = "GOT_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
@@ -21,8 +20,9 @@ export const SHOW_DETAILS = "SHOW_DETAILS";
 export const HIDE_DETAILS = "HIDE_DETAILS";
 
 // FETCHING
-export const showDetails = () => ({
-	type: SHOW_DETAILS
+export const showDetails = (id) => ({
+	type: SHOW_DETAILS,
+	id
 });
 
 export const hideDetails = () => ({
@@ -39,6 +39,13 @@ export const fetchCategories = () => dispatch => {
 	);
 };
 
+export const selectCategory = category => {
+		return {
+			type: SELECT_CATEGORY,
+			category,
+		}
+};
+
 export const fetchCategoryPosts = category => dispatch => {
 	ReadableApi.getPosts(category).then(posts =>
 		dispatch({
@@ -46,13 +53,6 @@ export const fetchCategoryPosts = category => dispatch => {
 			posts,
 		})
 	);
-};
-
-export const selectCategory = category => {
-		return {
-			type: SELECT_CATEGORY,
-			category,
-		}
 };
 
 // POSTS
@@ -108,13 +108,10 @@ export const deletePost = id => dispatch => {
 
 // COMMENTS
 export const fetchComments = id => dispatch => {
-	dispatch({
-		type: GET_COMMENTS,
-		parentId: id
-	});
 	ReadableApi.getComments(id).then(comments =>
 		dispatch({
-			type: GOT_COMMENTS,
+			type: GET_COMMENTS,
+			parentId: id,
 			comments
 		})
 	);

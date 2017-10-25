@@ -13,19 +13,24 @@ class PostSubmitForm extends React.Component {
 		submitted: false
 	};
 
-	handleChange = e => {
+	onChange = e => {
 		const name = e.target.name;
 		const value = e.target.value;
-		const category = name === "category" ? value : this.state.category;
 		this.setState({
-			[name]: value,
-			category
+			[name]: value
 		});
 	};
 
-	handleSubmit = e => {
+	onSubmit = e => {
+		// If category is selected, use that as default for the category options,
+		// otherwise user will select through dropdown options
+		const { selectedCategory } = this.props;
+		const category = selectedCategory === '' || selectedCategory === 'all'
+		? this.state.category
+		: selectedCategory;
 		const details = {
 			...this.state,
+			category,
 			id: shortid.generate(),
 			timestamp: Date.now()
 		};
@@ -39,19 +44,20 @@ class PostSubmitForm extends React.Component {
 	render() {
 		const { categories, selectedCategory } = this.props;
 		const { category } = this.state;
+		const redirectTo = selectedCategory ? selectedCategory : 'all';
 		return this.state.submitted ? (
-			<Redirect to={`/${category}`} />
+			<Redirect to={`/${redirectTo}/`} />
 		) : (
 			<div className="submit-post">
 				<h3>Submit a Post</h3>
-				<form onSubmit={this.handleSubmit} autoComplete="off">
+				<form onSubmit={this.onSubmit} autoComplete="off">
 					<label>
 						<input
 							required
 							name="author"
 							type="text"
 							value={this.state.author}
-							onChange={this.handleChange}
+							onChange={this.onChange}
 							placeholder="Author"
 						/>
 					</label>
@@ -62,7 +68,7 @@ class PostSubmitForm extends React.Component {
 							name="title"
 							type="text"
 							value={this.state.title}
-							onChange={this.handleChange}
+							onChange={this.onChange}
 							placeholder="Title"
 						/>
 					</label>
@@ -73,7 +79,7 @@ class PostSubmitForm extends React.Component {
 							name="body"
 							type="text"
 							value={this.state.body}
-							onChange={this.handleChange}
+							onChange={this.onChange}
 							placeholder="Body"
 						/>
 					</label>
@@ -86,7 +92,7 @@ class PostSubmitForm extends React.Component {
 							<select
 								name="category"
 								value={category}
-								onChange={this.handleChange}
+								onChange={this.onChange}
 							>
 								{categories.map((category, i) =>
 									category.name === "all"
@@ -100,7 +106,7 @@ class PostSubmitForm extends React.Component {
 							</select>
 						</label>
 					) : (
-						<label>Category: {category}</label>
+						<label>Category: {selectedCategory}</label>
 					)}
 					<br />
 					<input type="submit" value="Submit" />

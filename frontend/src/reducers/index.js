@@ -11,7 +11,6 @@ import {
   UPDATE_VOTE_POST,
 
   GET_COMMENTS,
-  GOT_COMMENTS,
   ADD_COMMENT,
   EDIT_COMMENT,
   DELETE_COMMENT,
@@ -46,18 +45,19 @@ const categoryData = (state = categoriesState, action) => {
 
 const postDataState = {
   isFetching: true,
-  posts: {},
-  postDetails: {}
+  posts: [],
+  currentPostId: ''
 };
 
 const postData = (state = postDataState, action) => {
-  const { posts, postDetails, option } = action;
+  const { posts, postDetails, option, id } = action;
   switch (action.type) {
     case GET_POSTS:
       return {
         ...state,
         isFetching: true
       };
+
     case GOT_POSTS:
       return {
         ...state,
@@ -76,7 +76,9 @@ const postData = (state = postDataState, action) => {
         ...state,
         posts: state.posts.map(post => {
           if (post.id === postDetails.id) {
-            option === "upVote" ? (post.voteScore += 1) : (post.voteScore -= 1);
+            option === "upVote"
+              ? post.voteScore += 1
+              : post.voteScore -= 1;
           }
           return post;
         })
@@ -101,6 +103,18 @@ const postData = (state = postDataState, action) => {
         )
       };
 
+    case SHOW_DETAILS:
+      return {
+        ...state,
+        currentPostId: id
+      }
+
+    case HIDE_DETAILS:
+      return {
+        ...state,
+        currentPostId: null
+      }
+
     default:
       return state;
   }
@@ -109,9 +123,8 @@ const postData = (state = postDataState, action) => {
 // COMMENTS
 
 const commentDataState = {
-  isFetching: false,
-  comments: {},
-  commentDetails: {}
+  parentId: null,
+  comments: [],
 };
 
 const commentData = (state = commentDataState, action) => {
@@ -119,15 +132,9 @@ const commentData = (state = commentDataState, action) => {
   switch (action.type) {
     case GET_COMMENTS:
       return {
-        isFetching: true,
-        parentId
-      };
-
-    case GOT_COMMENTS:
-      return {
         ...state,
-        comments,
-        isFetching: false
+        parentId,
+        comments
       };
 
     case ADD_COMMENT:
@@ -142,12 +149,10 @@ const commentData = (state = commentDataState, action) => {
         comments: state.comments.map(comment => {
           if (comment.id === commentDetails.id) {
             option === "upVote"
-              ? (comment.voteScore += 1)
-              : (comment.voteScore -= 1);
-            return comment;
-          } else {
-            return comment;
+              ? comment.voteScore += 1
+              : comment.voteScore -= 1
           }
+          return comment
         })
       };
 
@@ -164,7 +169,7 @@ const commentData = (state = commentDataState, action) => {
       return {
         ...state,
         comments: state.comments.filter(
-          comment => (comment.id !== commentDetails.id ? comment : "")
+          comment => comment.id !== commentDetails.id ? comment : ""
         )
       };
 
@@ -173,19 +178,7 @@ const commentData = (state = commentDataState, action) => {
   }
 };
 
-const postVisibility = (state = false , action) => {
-  switch (action.type) {
-    case SHOW_DETAILS:
-      return true
-    case HIDE_DETAILS:
-      return false
-    default:
-      return state;
-  }
-}
-
 export default combineReducers({
-  postVisibility,
   categoryData,
   postData,
   commentData

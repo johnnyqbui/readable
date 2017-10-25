@@ -23,8 +23,8 @@ ul li {
 
 .posts-header {
   margin: 1em 0;
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-block;
+  width: 100%;
 }
 
 .posts-header h2 {
@@ -32,15 +32,26 @@ ul li {
 }
 
 .submitBtn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
+  margin-bottom: 10px;
+  height: 38px;
+  width: 160px;
   color: #fff;
   border: 1px solid #0004ff;
-  padding: 15px;
-  margin: 10px;
-  transition: .3s;
+  font-size: 15px;
 }
-.submitBtn:hover {
-  transition: .3s;
+
+.sortBtn {
+  border: 1px solid rgb(157, 0, 255);
+  float: right;
+  transition: .2s;
+}
+
+.sortIsActive {
+  background: rgb(157, 0, 255);
 }
 
 .post-options {
@@ -53,23 +64,21 @@ ul li {
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  margin: 10px 10px 10px 0;
   height: 38px;
   width: 160px;
-  background: rgba(0,0,0,0);
   color: #fff;
   border: 1px solid #0004ff;
-  cursor: pointer;
+  font-size: 15px;
 }
 
 button {
-  margin: 10px 10px 10px 0;
   height: 40px;
   width: 160px;
   background: rgba(0,0,0,0);
   color: #fff;
   border: 1px solid #0004ff;
   cursor: pointer;
+  outline: 0;
 }
 
 form input[type='button'] {
@@ -117,7 +126,7 @@ form select {
 }
 
 .posts-list .posts {
-  padding: 10px;
+  padding: 15px 10px;
   margin: 10px 0;
   border-top: 1px solid #0004ff;
 }
@@ -185,7 +194,7 @@ form select {
   border-bottom-right-radius: 15px;
 }
 
-.isActive {
+.categoryIsActive {
   background: rgba(0, 255, 169, 1);
 }
 
@@ -222,7 +231,6 @@ form select {
 }
 
 .comments-list button {
-  margin: 10px 10px 10px 0;
   height: 40px;
   width: 160px;
   background: rgba(0,0,0,0);
