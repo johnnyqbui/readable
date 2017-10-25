@@ -19,8 +19,8 @@ export const UPDATE_VOTE_COMMENT = "UPDATE_VOTE_COMMENT";
 export const SHOW_DETAILS = "SHOW_DETAILS";
 export const HIDE_DETAILS = "HIDE_DETAILS";
 
-// FETCHING
-export const showDetails = (id) => ({
+// SHOW/HIDE DETAILS
+export const showDetails = id => ({
 	type: SHOW_DETAILS,
 	id
 });
@@ -40,23 +40,22 @@ export const fetchCategories = () => dispatch => {
 };
 
 export const selectCategory = category => {
-		return {
-			type: SELECT_CATEGORY,
-			category,
-		}
+	return {
+		type: SELECT_CATEGORY,
+		category
+	};
 };
 
 export const fetchCategoryPosts = category => dispatch => {
 	ReadableApi.getPosts(category).then(posts =>
 		dispatch({
 			type: GOT_POSTS,
-			posts,
+			posts
 		})
 	);
 };
 
 // POSTS
-
 export const fetchPosts = () => dispatch => {
 	dispatch({
 		type: GET_POSTS

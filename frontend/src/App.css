@@ -81,6 +81,10 @@ button {
   outline: 0;
 }
 
+form {
+  margin: 20px 0;
+}
+
 form input[type='button'] {
   margin: 10px 10px 10px 0;
   height: 40px;

@@ -12,7 +12,7 @@ const CommentEditForm = ({ onSubmit, onChange, body }) => {
 					onChange={onChange}
 				/>
 			</label>
-			<br/>
+			<br />
 			<input type="submit" value="Submit" />
 		</form>
 	);

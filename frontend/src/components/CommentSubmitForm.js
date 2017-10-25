@@ -69,7 +69,7 @@ class CommentSubmitForm extends React.Component {
 
 // Passing state as props, from reducers
 const mapStateToProps = state => {
-	const { selectedCategory,  commentData } = state;
+	const { selectedCategory, commentData } = state;
 	return {
 		...selectedCategory,
 		parentId: commentData.parentId

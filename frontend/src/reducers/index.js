@@ -9,20 +9,18 @@ import {
   EDIT_POST,
   DELETE_POST,
   UPDATE_VOTE_POST,
-
   GET_COMMENTS,
   ADD_COMMENT,
   EDIT_COMMENT,
   DELETE_COMMENT,
   UPDATE_VOTE_COMMENT,
-
   SHOW_DETAILS,
   HIDE_DETAILS
 } from "../actions";
 
 const categoriesState = {
   categories: [],
-  selectedCategory: ''
+  selectedCategory: ""
 };
 
 const categoryData = (state = categoriesState, action) => {
@@ -37,7 +35,7 @@ const categoryData = (state = categoriesState, action) => {
       return {
         ...state,
         selectedCategory: category
-      }
+      };
     default:
       return state;
   }
@@ -46,7 +44,7 @@ const categoryData = (state = categoriesState, action) => {
 const postDataState = {
   isFetching: true,
   posts: [],
-  currentPostId: ''
+  currentPostId: ""
 };
 
 const postData = (state = postDataState, action) => {
@@ -77,8 +75,8 @@ const postData = (state = postDataState, action) => {
         posts: state.posts.map(post => {
           if (post.id === postDetails.id) {
             option === "upVote"
-              ? post.voteScore += 1
-              : post.voteScore -= 1;
+            ? (post.voteScore += 1)
+            : (post.voteScore -= 1);
           }
           return post;
         })
@@ -88,10 +86,7 @@ const postData = (state = postDataState, action) => {
       return {
         ...state,
         posts: state.posts.map(
-          post =>
-            post.id === postDetails.id
-              ? { ...postDetails}
-              : post
+          post => (post.id === postDetails.id ? { ...postDetails } : post)
         )
       };
 
@@ -107,13 +102,13 @@ const postData = (state = postDataState, action) => {
       return {
         ...state,
         currentPostId: id
-      }
+      };
 
     case HIDE_DETAILS:
       return {
         ...state,
         currentPostId: null
-      }
+      };
 
     default:
       return state;
@@ -124,7 +119,7 @@ const postData = (state = postDataState, action) => {
 
 const commentDataState = {
   parentId: null,
-  comments: [],
+  comments: []
 };
 
 const commentData = (state = commentDataState, action) => {
@@ -149,10 +144,10 @@ const commentData = (state = commentDataState, action) => {
         comments: state.comments.map(comment => {
           if (comment.id === commentDetails.id) {
             option === "upVote"
-              ? comment.voteScore += 1
-              : comment.voteScore -= 1
+              ? (comment.voteScore += 1)
+              : (comment.voteScore -= 1);
           }
-          return comment
+          return comment;
         })
       };
 
@@ -169,7 +164,7 @@ const commentData = (state = commentDataState, action) => {
       return {
         ...state,
         comments: state.comments.filter(
-          comment => comment.id !== commentDetails.id ? comment : ""
+          comment => (comment.id !== commentDetails.id ? comment : "")
         )
       };
 

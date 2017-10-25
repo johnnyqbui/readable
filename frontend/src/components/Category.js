@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { fetchCategories, fetchCategoryPosts, selectCategory } from "../actions";
+import {
+	fetchCategories,
+	fetchCategoryPosts,
+	selectCategory
+} from "../actions";
 
 class Category extends Component {
 	componentDidMount() {
@@ -14,7 +18,7 @@ class Category extends Component {
 		selectedCategory === "all"
 			? fetchCategoryPosts()
 			: fetchCategoryPosts(selectedCategory);
-		selectCategory(selectedCategory)
+		selectCategory(selectedCategory);
 	};
 
 	render() {
@@ -23,7 +27,7 @@ class Category extends Component {
 		return (
 			<div className="categories">
 				<h2>Categories</h2>
-				<div className='categoriesList'>
+				<div className="categoriesList">
 					{categories.map(({ name }, i) => (
 						<Link
 							to={`/${name}/`}
@@ -54,4 +58,6 @@ const mapDispatchToProps = dispatch => ({
 	selectCategory: category => dispatch(selectCategory(category))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Category));
+export default withRouter(
+	connect(mapStateToProps, mapDispatchToProps)(Category)
+);

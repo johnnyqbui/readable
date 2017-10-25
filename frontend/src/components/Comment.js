@@ -3,8 +3,13 @@ import { connect } from "react-redux";
 import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
-import { fetchComments, updateVoteComment, editComment, deleteComment } from "../actions";
-import CommentEditForm from './CommentEditForm';
+import {
+	fetchComments,
+	updateVoteComment,
+	editComment,
+	deleteComment
+} from "../actions";
+import CommentEditForm from "./CommentEditForm";
 
 class Comment extends Component {
 	state = {
@@ -53,11 +58,16 @@ class Comment extends Component {
 			voteScore,
 			timestamp,
 			updateVoteComment,
-			deleteComment} = this.props;
+			deleteComment
+		} = this.props;
 		return (
 			<div className="comments">
 				<div className="comment-options">
-					<button onClick={e => {this.toggleEditComment(id, body)}}>
+					<button
+						onClick={e => {
+							this.toggleEditComment(id, body);
+						}}
+					>
 						Edit comment
 					</button>
 					<button onClick={e => deleteComment(id)}>Delete</button>

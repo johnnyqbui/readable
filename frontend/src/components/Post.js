@@ -6,7 +6,7 @@ import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
 import Comment from "./Comment";
 import PostEditForm from "./PostEditForm";
-import CommentSubmitForm from './CommentSubmitForm'
+import CommentSubmitForm from "./CommentSubmitForm";
 
 import {
 	fetchComments,
@@ -27,17 +27,17 @@ class Post extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		// Get comment length after comments have been fetched
-		this.getCommentLength(nextProps)
+		this.getCommentLength(nextProps);
 	}
 
 	componentDidMount() {
 		const { fetchComments, id, clearSortedPosts } = this.props;
 		const urlPostParam = this.props.match.params.post;
 		// Clear sorted posts on mount
-		clearSortedPosts()
+		clearSortedPosts();
 
 		// fetch each id's comments to get comment length
-		fetchComments(id)
+		fetchComments(id);
 
 		// if url post id params is present
 		if (urlPostParam) {
@@ -49,10 +49,10 @@ class Post extends Component {
 		// When clicking to another category, hide post details to prevent
 		// showing up again when remounting
 		const { hideDetails, clearSortedPosts } = this.props;
-		hideDetails()
+		hideDetails();
 
 		// Clear sorted posts on unmount
-		clearSortedPosts()
+		clearSortedPosts();
 	}
 
 	getCommentLength = props => {
@@ -62,19 +62,22 @@ class Post extends Component {
 					...this.state.commentLengthObj,
 					[props.id]: props.comments.length
 				}
-			})
+			});
 		}
 
 		// If comment length is at zero after deletion, then put comment length to zero
-		if (props.comments.length === 0 && this.state.commentLengthObj[props.id] === 1) {
+		if (
+			props.comments.length === 0 &&
+			this.state.commentLengthObj[props.id] === 1
+		) {
 			this.setState({
 				commentLengthObj: {
 					...this.state.commentLengthObj,
 					[props.id]: 0
 				}
-			})
+			});
 		}
-	}
+	};
 
 	showMoreDetails = id => {
 		const { showDetails, fetchComments } = this.props;
@@ -137,7 +140,7 @@ class Post extends Component {
 			updateVotePost,
 			deletePost,
 			currentPostId,
-			comments,
+			comments
 		} = this.props;
 		const currentCategory = this.props.match.params.category;
 		const { commentLengthObj } = this.state;
@@ -175,7 +178,9 @@ class Post extends Component {
 						/>
 					) : (
 						<div>
-							<p className="post-title">{title} - <em>{category}</em></p>
+							<p className="post-title">
+								{title} - <em>{category}</em>
+							</p>
 							<div className="post-details">
 								{id === currentPostId && (
 									<div className="post-body">{body}</div>
@@ -205,22 +210,24 @@ class Post extends Component {
 									/>
 								</div>
 							</div>
-							{id === currentPostId &&
+							{id === currentPostId && (
 								<div className="comments-list">
 									<CommentSubmitForm />
-									{comments.map(({ parentId, id, author, body, voteScore, timestamp }) =>
-										<Comment
-											key={id}
-											parentId={parentId}
-											id={id}
-											author={author}
-											body={body}
-											voteScore={voteScore}
-											timestamp={timestamp}
-										/>
+									{comments.map(
+										({ parentId, id, author, body, voteScore, timestamp }) => (
+											<Comment
+												key={id}
+												parentId={parentId}
+												id={id}
+												author={author}
+												body={body}
+												voteScore={voteScore}
+												timestamp={timestamp}
+											/>
+										)
 									)}
 								</div>
-							}
+							)}
 						</div>
 					)}
 				</div>
@@ -234,7 +241,7 @@ const mapStateToProps = state => {
 	const { postData, commentData } = state;
 	return {
 		currentPostId: postData.currentPostId,
-		comments: commentData.comments,
+		comments: commentData.comments
 	};
 };
 
@@ -247,6 +254,4 @@ const mapDispatchToProps = dispatch => ({
 	hideDetails: () => dispatch(hideDetails())
 });
 
-export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(Post)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));
