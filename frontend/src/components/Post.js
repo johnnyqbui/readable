@@ -1,21 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link, Redirect } from "react-router-dom";
 import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
-import Comment from "./Comment";
 import PostEditForm from "./PostEditForm";
+import Comment from "./Comment";
 import CommentSubmitForm from "./CommentSubmitForm";
-
-import {
-	fetchComments,
-	updateVotePost,
-	editPost,
-	deletePost,
-	showDetails,
-	hideDetails
-} from "../actions";
+import * as PostActions from "../actions/PostActions";
+import * as CommentActions from "../actions/CommentActions";
 
 class Post extends Component {
 	state = {
@@ -31,8 +24,8 @@ class Post extends Component {
 	}
 
 	componentDidMount() {
-		const { fetchComments, id, clearSortedPosts } = this.props;
-		const urlPostParam = this.props.match.params.post;
+		const { match, id, getPostDetails, fetchComments, clearSortedPosts } = this.props;
+		const urlPostParam = match.params.post;
 		// Clear sorted posts on mount
 		clearSortedPosts();
 
@@ -41,7 +34,9 @@ class Post extends Component {
 
 		// if url post id params is present
 		if (urlPostParam) {
-			this.showMoreDetails(urlPostParam);
+			// Check if post exists
+			getPostDetails(urlPostParam)
+			this.showPostDetails(urlPostParam);
 		}
 	}
 
@@ -79,7 +74,7 @@ class Post extends Component {
 		}
 	};
 
-	showMoreDetails = id => {
+	showPostDetails = id => {
 		const { showDetails, fetchComments } = this.props;
 		this.setState({
 			edit: false
@@ -88,12 +83,11 @@ class Post extends Component {
 		showDetails(id);
 	};
 
-	showLessDetails = id => {
+	hidePostDetails = id => {
 		const { hideDetails } = this.props;
 		this.setState({
 			edit: false
 		});
-		fetchComments(id);
 		hideDetails();
 	};
 
@@ -113,6 +107,13 @@ class Post extends Component {
 		});
 	};
 
+	onDelete = id => {
+		const { deletePost, history, match } = this.props;
+		const urlCategoryParam = match.params.category;
+		deletePost(id);
+		history.replace(`/${urlCategoryParam}`)
+	}
+
 	onSubmit = e => {
 		const { title, body } = this.state;
 		const { currentPostId, editPost } = this.props;
@@ -130,6 +131,7 @@ class Post extends Component {
 
 	render() {
 		const {
+			match,
 			id,
 			author,
 			category,
@@ -138,34 +140,33 @@ class Post extends Component {
 			voteScore,
 			timestamp,
 			updateVotePost,
-			deletePost,
 			currentPostId,
+			postError,
 			comments
 		} = this.props;
-		const currentCategory = this.props.match.params.category;
+		const urlCategoryParam = match.params.category;
 		const { commentLengthObj } = this.state;
 		return (
 			<div>
+				{postError && <Redirect to="/404" />}
 				<div className="posts" key={id}>
 					{id === currentPostId ? (
 						<div className="post-options">
 							<Link
-								to={`/${currentCategory}/`}
-								onClick={() => this.showLessDetails(id)}
+								to={`/${urlCategoryParam}/`}
+								onClick={() => this.hidePostDetails(id)}
 							>
-								Less
+								Hide
 							</Link>
-							<button onClick={e => this.editPost(id, title, body)}>
+							<button onClick={() => this.editPost(id, title, body)}>
 								Edit Post
 							</button>
-							<button onClick={e => deletePost(id)}>Delete</button>
+							<button onClick={() => this.onDelete(id)}>Delete</button>
 						</div>
 					) : (
 						<div className="post-options">
-							<Link to={`${id}`} onClick={() => this.showMoreDetails(id)}>
-								{commentLengthObj[id]
-									? `More (${commentLengthObj[id]})`
-									: `More (0)`}
+							<Link to={`/${category}/${id}`} onClick={() => this.showPostDetails(id)}>
+								Show
 							</Link>
 						</div>
 					)}
@@ -192,10 +193,10 @@ class Post extends Component {
 										.toString()}
 								</span>
 								<br />
-								<div>
+								<div className="post-subInfo">
 									<TiArrowSortedUp
 										className="vote-icon"
-										onClick={e => {
+										onClick={() => {
 											const option = "upVote";
 											return updateVotePost(id, option);
 										}}
@@ -203,11 +204,16 @@ class Post extends Component {
 									{voteScore}
 									<TiArrowSortedDown
 										className="vote-icon"
-										onClick={e => {
+										onClick={() => {
 											const option = "downVote";
 											return updateVotePost(id, option);
 										}}
 									/>
+									<p>
+										{commentLengthObj[id]
+											? `Comments (${commentLengthObj[id]})`
+											: `Comments (0)`}
+									</p>
 								</div>
 							</div>
 							{id === currentPostId && (
@@ -237,21 +243,15 @@ class Post extends Component {
 }
 
 // Passing state as props, from reducers
-const mapStateToProps = state => {
-	const { postData, commentData } = state;
-	return {
-		currentPostId: postData.currentPostId,
-		comments: commentData.comments
-	};
-};
-
-const mapDispatchToProps = dispatch => ({
-	fetchComments: id => dispatch(fetchComments(id)),
-	updateVotePost: (id, option) => dispatch(updateVotePost(id, option)),
-	editPost: details => dispatch(editPost(details)),
-	deletePost: id => dispatch(deletePost(id)),
-	showDetails: id => dispatch(showDetails(id)),
-	hideDetails: () => dispatch(hideDetails())
+const mapStateToProps = ({ postData, commentData }) => ({
+	currentPostId: postData.currentPostId,
+	postError: postData.error,
+	comments: commentData.comments
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));
+export default withRouter(
+	connect(mapStateToProps, {
+		...PostActions,
+		...CommentActions
+	})(Post)
+);

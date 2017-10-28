@@ -1,14 +1,16 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import "../App.css";
 import Home from "../routes/Home";
+import NotFound from "./NotFound";
+import "../App.css";
 
 const App = () => {
   return (
     <div className="App">
       <Switch>
-        <Route path="/" component={Home}/>
-        <Route render={() => <h1>Page not found</h1>} />
+        <Route path="/404/" component={ NotFound } />
+        <Route path="/" component={ Home } />
       </Switch>
     </div>
   );

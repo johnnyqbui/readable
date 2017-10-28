@@ -1,0 +1,23 @@
+// CATEGORIES
+export const GET_CATEGORIES = "GET_CATEGORIES";
+export const SELECT_CATEGORY = "SELECT_CATEGORY";
+
+// POSTS
+export const GET_POSTS = "GET_POSTS";
+export const GOT_POSTS = "GOT_POSTS";
+export const GET_POST_FAILED = "GET_POST_FAILED";
+export const UPDATE_VOTE_POST = "UPDATE_VOTE_POST";
+export const ADD_POST = "ADD_POST";
+export const EDIT_POST = "EDIT_POST";
+export const DELETE_POST = "DELETE_POST";
+
+// COMMENTS
+export const GET_COMMENTS = "GET_COMMENTS";
+export const UPDATE_VOTE_COMMENT = "UPDATE_VOTE_COMMENT";
+export const ADD_COMMENT = "ADD_COMMENT";
+export const EDIT_COMMENT = "EDIT_COMMENT";
+export const DELETE_COMMENT = "DELETE_COMMENT";
+
+// POST DETAILS
+export const SHOW_DETAILS = "SHOW_DETAILS";
+export const HIDE_DETAILS = "HIDE_DETAILS";

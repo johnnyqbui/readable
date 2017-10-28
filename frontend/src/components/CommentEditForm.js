@@ -2,10 +2,9 @@ import React from "react";
 
 const CommentEditForm = ({ onSubmit, onChange, body }) => {
 	return (
-		<form onSubmit={onSubmit} autoComplete="off">
+		<form className="comment-edit-form" onSubmit={onSubmit} autoComplete="off">
 			<label>
 				<textarea
-					style={{ width: 300, height: 100 }}
 					name="body"
 					type="text"
 					value={body}

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import shortid from "shortid";
-import { addComment } from "../actions";
+import * as actions from "../actions/CommentActions";
 
 class CommentSubmitForm extends React.Component {
 	state = {
@@ -68,16 +68,9 @@ class CommentSubmitForm extends React.Component {
 }
 
 // Passing state as props, from reducers
-const mapStateToProps = state => {
-	const { selectedCategory, commentData } = state;
-	return {
+const mapStateToProps = ({ selectedCategory, commentData }) =>({
 		...selectedCategory,
 		parentId: commentData.parentId
-	};
-};
-
-const mapDispatchToProps = dispatch => ({
-	addComment: details => dispatch(addComment(details))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentSubmitForm);
+export default connect(mapStateToProps, actions)(CommentSubmitForm);

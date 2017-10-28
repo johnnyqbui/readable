@@ -2,10 +2,9 @@ import React from "react";
 
 const PostEditForm = ({ onSubmit, onChange, title, body }) => {
 	return (
-		<form onSubmit={onSubmit} autoComplete="off">
+		<form className="post-edit-form" onSubmit={onSubmit} autoComplete="off">
 			<label>
 				<input
-					style={{ width: 300 }}
 					name="title"
 					type="text"
 					value={title}
@@ -15,7 +14,6 @@ const PostEditForm = ({ onSubmit, onChange, title, body }) => {
 			<br />
 			<label>
 				<textarea
-					style={{ width: 300, height: 100 }}
 					name="body"
 					type="text"
 					value={body}

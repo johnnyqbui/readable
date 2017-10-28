@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import shortid from "shortid";
-import { fetchPosts, addPost } from "../actions";
 import { Redirect } from "react-router-dom";
+import shortid from "shortid";
+import * as actions from "../actions/PostActions";
 
 class PostSubmitForm extends React.Component {
 	state = {
@@ -125,9 +125,4 @@ const mapStateToProps = ({ categoryData }) => {
 	};
 };
 
-const mapDispatchToProps = dispatch => ({
-	addPost: details => dispatch(addPost(details)),
-	fetchPosts: () => dispatch(fetchPosts())
-});
-
-export default connect(mapStateToProps,mapDispatchToProps)(PostSubmitForm)
+export default connect(mapStateToProps, actions)(PostSubmitForm)

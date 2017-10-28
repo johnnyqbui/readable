@@ -3,13 +3,8 @@ import { connect } from "react-redux";
 import moment from "moment";
 import TiArrowSortedUp from "react-icons/lib/ti/arrow-sorted-up";
 import TiArrowSortedDown from "react-icons/lib/ti/arrow-sorted-down";
-import {
-	fetchComments,
-	updateVoteComment,
-	editComment,
-	deleteComment
-} from "../actions";
 import CommentEditForm from "./CommentEditForm";
+import * as actions from "../actions/CommentActions";
 
 class Comment extends Component {
 	state = {
@@ -63,14 +58,10 @@ class Comment extends Component {
 		return (
 			<div className="comments">
 				<div className="comment-options">
-					<button
-						onClick={e => {
-							this.toggleEditComment(id, body);
-						}}
-					>
+					<button onClick={() => this.toggleEditComment(id, body)}>
 						Edit comment
 					</button>
-					<button onClick={e => deleteComment(id)}>Delete</button>
+					<button onClick={() => deleteComment(id)}>Delete</button>
 				</div>
 				{this.state.openEdit && this.state.id === id ? (
 					<CommentEditForm
@@ -92,7 +83,7 @@ class Comment extends Component {
 				<div>
 					<TiArrowSortedUp
 						className="vote-icon"
-						onClick={e => {
+						onClick={() => {
 							const option = "upVote";
 							return updateVoteComment(id, option);
 						}}
@@ -100,7 +91,7 @@ class Comment extends Component {
 					{voteScore}
 					<TiArrowSortedDown
 						className="vote-icon"
-						onClick={e => {
+						onClick={() => {
 							const option = "downVote";
 							return updateVoteComment(id, option);
 						}}
@@ -111,11 +102,4 @@ class Comment extends Component {
 	}
 }
 
-const mapDispatchToProps = dispatch => ({
-	fetchComments: id => dispatch(fetchComments(id)),
-	updateVoteComment: (id, option) => dispatch(updateVoteComment(id, option)),
-	editComment: details => dispatch(editComment(details)),
-	deleteComment: id => dispatch(deleteComment(id))
-});
-
-export default connect(null, mapDispatchToProps)(Comment);
+export default connect(null, actions)(Comment);

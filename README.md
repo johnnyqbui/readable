@@ -7,9 +7,9 @@ Users will be able to post content to predefined categories, comment on their po
 * Install and start the API server
     - `cd api-server`
     - `npm install`
-    - `node server`
+    - `npm run start`
 * In another terminal window
     - `cd frontend`
     - `npm install`
-    - `npm start`
+    - `npm run start`
 

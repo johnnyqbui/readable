@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import {
-	fetchCategories,
-	fetchCategoryPosts,
-	selectCategory
-} from "../actions";
+import * as actions from "../actions/CategoryActions";
 
 class Category extends Component {
 	componentDidMount() {
@@ -32,7 +28,7 @@ class Category extends Component {
 						<Link
 							to={`/${name}/`}
 							key={i}
-							onClick={e => this.handleClickCategory(name)}
+							onClick={() => this.handleClickCategory(name)}
 							className={name === urlCategoryParam ? "categoryIsActive" : ""}
 						>
 							{name}
@@ -45,19 +41,10 @@ class Category extends Component {
 }
 
 // Passing state as props, from reducers
-const mapStateToProps = state => {
-	const { categoryData } = state;
-	return {
-		categories: categoryData.categories
-	};
-};
-
-const mapDispatchToProps = dispatch => ({
-	fetchCategories: () => dispatch(fetchCategories()),
-	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category)),
-	selectCategory: category => dispatch(selectCategory(category))
+const mapStateToProps = ({ categoryData }) =>({
+	categories: categoryData.categories
 });
 
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(Category)
+	connect(mapStateToProps, actions)(Category)
 );

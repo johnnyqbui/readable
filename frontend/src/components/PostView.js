@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Post from "./Post";
-
-import { fetchPosts, fetchCategoryPosts } from "../actions";
+import * as CategoryActions from "../actions/CategoryActions";
+import * as PostActions from "../actions/PostActions";
 
 class PostView extends Component {
 	state = {
@@ -14,11 +14,9 @@ class PostView extends Component {
 	componentDidMount() {
 		const { fetchPosts, fetchCategoryPosts } = this.props;
 		const urlCategoryParam = this.props.match.params.category;
-		if (urlCategoryParam === "all") {
-			fetchPosts();
-		} else {
-			fetchCategoryPosts(urlCategoryParam);
-		}
+		urlCategoryParam === "all"
+			? fetchPosts()
+			: fetchCategoryPosts(urlCategoryParam);
 	}
 
 	sortByDate(posts, selectedSort) {
@@ -112,19 +110,17 @@ class PostView extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	const { postData } = state;
+const mapStateToProps = ({ postData }) => {
 	return {
 		fetchedPosts: postData.posts,
 		isFetching: postData.isFetching
 	};
 };
 
-const mapDispatchToProps = dispatch => ({
-	fetchPosts: () => dispatch(fetchPosts()),
-	fetchCategoryPosts: category => dispatch(fetchCategoryPosts(category))
-});
-
-export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(PostView)
-);
+export default withRouter(connect(
+	mapStateToProps,
+	{
+		...CategoryActions,
+		...PostActions
+	}
+)(PostView));

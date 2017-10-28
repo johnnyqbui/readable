@@ -10,7 +10,7 @@ const Home = () => {
 			<Route path="/:category?" component={Category} />
 			<Switch>
 				<Route path="/submit" component={PostSubmitForm} />
-				<Route path="/:category/:post?" component={PostView} />
+				<Route path="/:category?/:post?" component={PostView} />
 			</Switch>
 		</div>
 	);

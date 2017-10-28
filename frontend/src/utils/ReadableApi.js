@@ -7,9 +7,15 @@ const headers = {
 };
 
 export const getPosts = category =>
-	fetch(`${baseApi}${category && category !== "all" ? "/" + category : ""}/posts`, {
-		...headers
-	}).then(res => res.json());
+	fetch(
+		`${baseApi}${category && category !== "all" ? "/" + category : ""}/posts`,
+		{	...headers }
+	).then(res => res.json());
+
+export const getPostDetails = id =>
+	fetch(`${baseApi}/posts/${id}`, { ...headers })
+		.then(res => res.json())
+		.catch(error => error);
 
 export const updateVotePost = (id, option) =>
 	fetch(`${baseApi}/posts/${id}`, {
